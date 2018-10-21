@@ -7,6 +7,7 @@ public class drawPath : MonoBehaviour {
 	public Material lineMat;
 	LineRenderer lineRenderer;
 	bool drawing = false;
+	float playerGirth = 1f;
 
 	private void Start() {
 		lineRenderer = gameObject.GetComponent<LineRenderer>();
@@ -16,6 +17,7 @@ public class drawPath : MonoBehaviour {
 			new GradientAlphaKey[] { new GradientAlphaKey(.5f, 0.0f), new GradientAlphaKey(.5f, 1.0f) }
 			);
 		lineRenderer.colorGradient = gradient;
+		points.Add(transform.position);
 	}
 	
 	void Update () {
@@ -23,7 +25,14 @@ public class drawPath : MonoBehaviour {
 		if (drawing) {
 			Vector3 scaledMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			if (points.Count == 0 || !(points[points.Count-1].x == scaledMousePos.x && points[points.Count-1].y == scaledMousePos.y)) {
-				points.Add(new Vector2(scaledMousePos.x, scaledMousePos.y));
+				//check collisions before adding waypoint
+				Vector2 oldPoint = points[points.Count - 1];
+				Vector2 newPoint = scaledMousePos;
+				//angle between points in radians
+				float ang = Mathf.Atan2((newPoint.y - oldPoint.y), (newPoint.x - oldPoint.x));
+				if (Physics2D.CircleCastAll(oldPoint, playerGirth, new Vector2(Mathf.Cos(ang), Mathf.Sin(ang)),Vector2.Distance(oldPoint, newPoint)).Length == 0) {
+					points.Add(new Vector2(scaledMousePos.x, scaledMousePos.y));
+				}
 			}
 		}
 		lineRenderer.positionCount = points.Count;
