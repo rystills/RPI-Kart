@@ -18,12 +18,17 @@ public class drawPath : MonoBehaviour {
 			new GradientAlphaKey[] { new GradientAlphaKey(.5f, 0.0f), new GradientAlphaKey(.5f, 1.0f) }
 			);
 		lineRenderer.colorGradient = gradient;
-		points.Add(transform.position);
 	}
 	
 	void Update () {
+		bool prevDrawing = drawing;
 		drawing = Input.GetMouseButton(0);
 		if (drawing) {
+			if (!prevDrawing) {
+				//check if we clicked on a player unit; if so, start a new path at his position
+				points.Clear();
+				points.Add(transform.position);
+			}
 			Vector3 scaledMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			if (points.Count == 0 || !(points[points.Count-1].x == scaledMousePos.x && points[points.Count-1].y == scaledMousePos.y)) {
 				//check collisions before adding waypoint

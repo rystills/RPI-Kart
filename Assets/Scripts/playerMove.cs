@@ -11,7 +11,7 @@ public class playerMove : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.Rotate(0, 0, 60 * Time.deltaTime);
-		transform.Translate(new Vector2(2 * Time.deltaTime, 3 * Time.deltaTime), Space.World);
+		//transform.Rotate(0, 0, 60 * Time.deltaTime);
+		//transform.Translate(new Vector2(2 * Time.deltaTime, 3 * Time.deltaTime), Space.World);
 	}
 }
