@@ -29,11 +29,19 @@ public class drawPath : MonoBehaviour {
 				//check collisions before adding waypoint
 				Vector2 oldPoint = points[points.Count - 1];
 				Vector2 newPoint = scaledMousePos;
-				if (Physics2D.CircleCast(oldPoint, playerGirth, (newPoint - oldPoint).normalized, Vector2.Distance(oldPoint, newPoint)).collider == null) {
+				RaycastHit2D rch;
+				rch = Physics2D.CircleCast(oldPoint, playerGirth, (newPoint - oldPoint).normalized, Vector2.Distance(oldPoint, newPoint));
+				if (rch.collider == null) {
 					//no collisions; add the point
 					points.Add(new Vector2(scaledMousePos.x, scaledMousePos.y));
 				}
 				else {
+					//translate collider point outside of collision
+					Vector2 finalPoint = rch.point;
+					float ang = Mathf.Atan2((finalPoint.y - oldPoint.y), (finalPoint.x - oldPoint.x));
+					finalPoint.x -= Mathf.Cos(ang) * playerGirth;
+					finalPoint.y -= Mathf.Sin(ang) * playerGirth;
+					points.Add(finalPoint);
 					//collision; try resolving on each individual axis
 				}
 			}
