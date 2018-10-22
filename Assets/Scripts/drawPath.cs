@@ -36,7 +36,7 @@ public class drawPath : MonoBehaviour {
 				Vector2 oldPoint = points[points.Count - 1];
 				Vector2 newPoint = scaledMousePos;
 				RaycastHit2D rch;
-				rch = Physics2D.CircleCast(oldPoint, playerGirth, (newPoint - oldPoint).normalized, Vector2.Distance(oldPoint, newPoint));
+				rch = Physics2D.CircleCast(oldPoint, playerGirth, (newPoint - oldPoint).normalized, Vector2.Distance(oldPoint, newPoint),1<<8);
 				if (rch.collider == null) {
 					//no collisions; add the point
 					points.Add(new Vector2(scaledMousePos.x, scaledMousePos.y));
