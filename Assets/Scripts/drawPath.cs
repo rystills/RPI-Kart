@@ -7,7 +7,7 @@ public class drawPath : MonoBehaviour {
 	public Material lineMat;
 	LineRenderer lineRenderer;
 	bool drawing = false;
-	float playerGirth = .1f;
+	float playerGirth = .3f;
 	public Transform debugPoint;
 
 	private void Start() {
@@ -29,13 +29,12 @@ public class drawPath : MonoBehaviour {
 				//check collisions before adding waypoint
 				Vector2 oldPoint = points[points.Count - 1];
 				Vector2 newPoint = scaledMousePos;
-				Vector2 ang = (newPoint - oldPoint).normalized;
-				float dist = Vector2.Distance(oldPoint, newPoint);
-				if (Physics2D.CircleCast(oldPoint, playerGirth, ang,dist).collider == null) {
+				if (Physics2D.CircleCast(oldPoint, playerGirth, (newPoint - oldPoint).normalized, Vector2.Distance(oldPoint, newPoint)).collider == null) {
+					//no collisions; add the point
 					points.Add(new Vector2(scaledMousePos.x, scaledMousePos.y));
 				}
 				else {
-					print("collision blocked");
+					//collision; try resolving on each individual axis
 				}
 			}
 		}
