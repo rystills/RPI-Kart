@@ -7,6 +7,7 @@ public class drawPath : MonoBehaviour {
 	public Material lineMat;
 	LineRenderer lineRenderer;
 	bool drawing = false;
+	bool mouseDown = false;
 	float playerGirth = .3f;
 	public Transform debugPoint;
 
@@ -21,36 +22,44 @@ public class drawPath : MonoBehaviour {
 	}
 	
 	void Update () {
-		bool prevDrawing = drawing;
-		drawing = Input.GetMouseButton(0);
-		if (drawing) {
-			if (!prevDrawing) {
+		bool prevMouseDown = mouseDown;
+		mouseDown = Input.GetMouseButton(0);
+		if (mouseDown) {
+			if (!drawing) {
 				//check if we clicked on a player unit; if so, start a new path at his position
-
-				points.Clear();
-				points.Add(transform.position);
-			}
-			Vector3 scaledMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			if (points.Count == 0 || !(points[points.Count-1].x == scaledMousePos.x && points[points.Count-1].y == scaledMousePos.y)) {
-				//check collisions before adding waypoint
-				Vector2 oldPoint = points[points.Count - 1];
-				Vector2 newPoint = scaledMousePos;
-				RaycastHit2D rch;
-				rch = Physics2D.CircleCast(oldPoint, playerGirth, (newPoint - oldPoint).normalized, Vector2.Distance(oldPoint, newPoint),1<<8);
-				if (rch.collider == null) {
-					//no collisions; add the point
-					points.Add(new Vector2(scaledMousePos.x, scaledMousePos.y));
-				}
-				else {
-					//translate collider point outside of collision
-					Vector2 finalPoint = rch.point;
-					float ang = Mathf.Atan2((finalPoint.y - oldPoint.y), (finalPoint.x - oldPoint.x));
-					finalPoint.x -= Mathf.Cos(ang) * playerGirth;
-					finalPoint.y -= Mathf.Sin(ang) * playerGirth;
-					points.Add(finalPoint);
-					//collision; try resolving on each individual axis
+				Collider2D hit = Physics2D.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition), 1 << 9);
+				if (hit) {
+					points.Clear();
+					points.Add(hit.transform.position);
+					drawing = true;
 				}
 			}
+			if (drawing) {
+				Vector3 scaledMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				if (points.Count == 0 || !(points[points.Count - 1].x == scaledMousePos.x && points[points.Count - 1].y == scaledMousePos.y)) {
+					//check collisions before adding waypoint
+					Vector2 oldPoint = points[points.Count - 1];
+					Vector2 newPoint = scaledMousePos;
+					RaycastHit2D rch;
+					rch = Physics2D.CircleCast(oldPoint, playerGirth, (newPoint - oldPoint).normalized, Vector2.Distance(oldPoint, newPoint), 1 << 8);
+					if (rch.collider == null) {
+						//no collisions; add the point
+						points.Add(new Vector2(scaledMousePos.x, scaledMousePos.y));
+					}
+					else {
+						//translate collider point outside of collision
+						Vector2 finalPoint = rch.point;
+						float ang = Mathf.Atan2((finalPoint.y - oldPoint.y), (finalPoint.x - oldPoint.x));
+						finalPoint.x -= Mathf.Cos(ang) * playerGirth;
+						finalPoint.y -= Mathf.Sin(ang) * playerGirth;
+						points.Add(finalPoint);
+						//collision; try resolving on each individual axis
+					}
+				}
+			}
+		}
+		else {
+			drawing = false;
 		}
 		lineRenderer.positionCount = points.Count;
 		for (int i = 0; i < points.Count; ++i) {
