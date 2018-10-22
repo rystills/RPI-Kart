@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class drawPath : MonoBehaviour {
 	List<Vector2> points = new List<Vector2>();
-	public Material lineMat;
 	LineRenderer lineRenderer;
 	bool drawing = false;
 	float playerGirth = .3f;
