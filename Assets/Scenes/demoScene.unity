@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 217939382}
   - component: {fileID: 217939381}
   - component: {fileID: 217939383}
+  - component: {fileID: 217939384}
   m_Layer: 0
   m_Name: LineDrawer
   m_TagString: Untagged
@@ -141,8 +142,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ac7431997ae093429a21a7c6e03c50f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineMat: {fileID: 0}
-  debugPoint: {fileID: 0}
 --- !u!4 &217939382
 Transform:
   m_ObjectHideFlags: 0
@@ -249,6 +248,19 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &217939384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 217939380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36be3aa9f5845bf4780c94327358e1ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lineMat: {fileID: 0}
+  debugPoint: {fileID: 0}
 --- !u!1001 &336132688
 Prefab:
   m_ObjectHideFlags: 0
@@ -286,7 +298,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4062898742517970, guid: bac0073e401abc541a6205f10a5aa2d3, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bac0073e401abc541a6205f10a5aa2d3, type: 2}
@@ -343,7 +355,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2e17f8479a6e1264aa2b25ffa3d02d14, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c77dcd63aaf8bf148900a83d965c3ad5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -444,7 +456,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2e17f8479a6e1264aa2b25ffa3d02d14, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c77dcd63aaf8bf148900a83d965c3ad5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -578,34 +590,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1037454322
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 336132688}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1037454323}
-  m_Layer: 0
-  m_Name: Missing Prefab
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1037454323
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 336132688}
-  m_GameObject: {fileID: 1037454322}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2019949547
 GameObject:
   m_ObjectHideFlags: 0
@@ -658,7 +642,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2e17f8479a6e1264aa2b25ffa3d02d14, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c77dcd63aaf8bf148900a83d965c3ad5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

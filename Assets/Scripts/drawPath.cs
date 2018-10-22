@@ -26,6 +26,7 @@ public class drawPath : MonoBehaviour {
 		if (drawing) {
 			if (!prevDrawing) {
 				//check if we clicked on a player unit; if so, start a new path at his position
+
 				points.Clear();
 				points.Add(transform.position);
 			}
