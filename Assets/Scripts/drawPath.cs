@@ -7,8 +7,8 @@ public class drawPath : MonoBehaviour {
 	public Material lineMat;
 	LineRenderer lineRenderer;
 	bool drawing = false;
-	bool mouseDown = false;
 	float playerGirth = .3f;
+	GameObject pathOwner = null;
 	public Transform debugPoint;
 
 	private void Start() {
@@ -22,16 +22,15 @@ public class drawPath : MonoBehaviour {
 	}
 	
 	void Update () {
-		bool prevMouseDown = mouseDown;
-		mouseDown = Input.GetMouseButton(0);
-		if (mouseDown) {
-			if (!drawing) {
+		if (Input.GetMouseButton(0)) {
+			if (!drawing && Input.GetMouseButtonDown(0)) {
 				//check if we clicked on a player unit; if so, start a new path at his position
 				Collider2D hit = Physics2D.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition), 1 << 9);
 				if (hit) {
 					points.Clear();
 					points.Add(hit.transform.position);
 					drawing = true;
+					pathOwner = hit.gameObject;
 				}
 			}
 			if (drawing) {
