@@ -7,7 +7,8 @@ public class drawPath : MonoBehaviour {
 	public Material lineMat;
 	LineRenderer lineRenderer;
 	bool drawing = false;
-	float playerGirth = 1f;
+	float playerGirth = .1f;
+	public Transform debugPoint;
 
 	private void Start() {
 		lineRenderer = gameObject.GetComponent<LineRenderer>();
@@ -28,10 +29,13 @@ public class drawPath : MonoBehaviour {
 				//check collisions before adding waypoint
 				Vector2 oldPoint = points[points.Count - 1];
 				Vector2 newPoint = scaledMousePos;
-				//angle between points in radians
-				float ang = Mathf.Atan2((newPoint.y - oldPoint.y), (newPoint.x - oldPoint.x));
-				if (Physics2D.CircleCastAll(oldPoint, playerGirth, new Vector2(Mathf.Cos(ang), Mathf.Sin(ang)),Vector2.Distance(oldPoint, newPoint)).Length == 0) {
+				Vector2 ang = (newPoint - oldPoint).normalized;
+				float dist = Vector2.Distance(oldPoint, newPoint);
+				if (Physics2D.CircleCast(oldPoint, playerGirth, ang,dist).collider == null) {
 					points.Add(new Vector2(scaledMousePos.x, scaledMousePos.y));
+				}
+				else {
+					print("collision blocked");
 				}
 			}
 		}
