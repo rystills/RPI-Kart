@@ -27,7 +27,6 @@ public class drawPath : MonoBehaviour {
 				Collider2D hit = Physics2D.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition), 1 << 9);
 				if (hit && hit.transform == transform.parent) {
 					points.Clear();
-					points.Add(hit.transform.position);
 					drawing = true;
 					freshDraw = true;
 				}
@@ -59,9 +58,10 @@ public class drawPath : MonoBehaviour {
 		else {
 			drawing = false;
 		}
-		lineRenderer.positionCount = points.Count;
+		lineRenderer.positionCount = points.Count+1;
+		lineRenderer.SetPosition(0, transform.parent.transform.position);
 		for (int i = 0; i < points.Count; ++i) {
-			lineRenderer.SetPosition(i, points[i]);
+			lineRenderer.SetPosition(i+1, points[i]);
 		}
 	}
 }
