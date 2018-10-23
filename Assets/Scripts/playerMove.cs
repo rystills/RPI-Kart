@@ -20,25 +20,19 @@ public class playerMove : MonoBehaviour {
 		if (dp.freshDraw) {
 			dp.freshDraw = false;
 			curPathPoint = 0;
-			Debug.Log("ayy");
 		}
 		//move along the drawn path
 		float moveTick = moveSpeed * Time.deltaTime;
-		while (curPathPoint < dp.points.Count-1 && moveTick > 0) {
+		while (curPathPoint < dp.points.Count-1) {
 			float dist = Vector2.Distance(transform.position, dp.points[curPathPoint + 1]);
 			float ang = Mathf.Atan2((dp.points[curPathPoint + 1].y - transform.position.y), (dp.points[curPathPoint + 1].x - transform.position.x));
-			if (dist >= moveTick) {
+			if (dist > moveTick) {
 				transform.Translate(new Vector2(Mathf.Cos(ang) * moveTick, Mathf.Sin(ang) * moveTick));
-				moveTick = 0;
 				break;
 			}
-			else {
-				transform.position = dp.points[curPathPoint + 1];
-				++curPathPoint;
-				moveTick -= dist;
-			}
+			transform.position = dp.points[curPathPoint + 1];
+			++curPathPoint;
+			moveTick -= dist;
 		}
-		//transform.Rotate(0, 0, 60 * Time.deltaTime);
-		//transform.Translate(new Vector2(2 * Time.deltaTime, 3 * Time.deltaTime), Space.World);
 	}
 }
