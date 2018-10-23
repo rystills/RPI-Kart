@@ -52,7 +52,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36be3aa9f5845bf4780c94327358e1ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineMat: {fileID: 0}
   debugPoint: {fileID: 0}
 --- !u!120 &120375288542777254
 LineRenderer:
@@ -69,7 +68,7 @@ LineRenderer:
   m_ReflectionProbeUsage: 0
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 104cdaea29a74f548a27164b9302d5da, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -100,7 +99,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0.0859375
         inSlope: 0
         outSlope: 0
         tangentMode: 0

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class playerMove : MonoBehaviour {
+	public GameObject lineDrawer;
 
 	// Use this for initialization
 	void Start () {
-		
+		GameObject ld = Instantiate(lineDrawer);
+		ld.transform.SetParent(transform);
 	}
 	
 	// Update is called once per frame
