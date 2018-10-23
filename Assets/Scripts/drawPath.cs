@@ -49,14 +49,15 @@ public class drawPath : MonoBehaviour {
 						//translate collider point outside of collision, with a buffer of .01f to help with float rounding
 						Vector2 finalPoint = rch.point;
 						float ang = Mathf.Atan2((finalPoint.y - oldPoint.y), (finalPoint.x - oldPoint.x));
-						finalPoint.x -= Mathf.Cos(ang) * (playerGirth + .01f);
-						finalPoint.y -= Mathf.Sin(ang) * (playerGirth + .01f);
-						//failsafe: make sure the final point is outside of all collisions
-						hit = Physics2D.OverlapCircle(new Vector2(finalPoint.x,finalPoint.y), playerGirth, 1 << 8);
-						if (!hit) {
-							points.Add(finalPoint);
+						finalPoint.x -= Mathf.Cos(ang) * (playerGirth);
+						finalPoint.y -= Mathf.Sin(ang) * (playerGirth);
+						//failsafe: move the point out in small additional increments until collision is resolved (should fix floating point imprecision issues)
+						while (Physics2D.OverlapCircle(new Vector2(finalPoint.x,finalPoint.y), playerGirth, 1 << 8)) {
+							finalPoint.x -= Mathf.Cos(ang) * (.001f);
+							finalPoint.y -= Mathf.Sin(ang) * (.001f);
 						}
-						//collision; try resolving on each individual axis
+						points.Add(finalPoint);
+						//TODO: try resolving collisions on each individual axis
 					}
 				}
 			}
