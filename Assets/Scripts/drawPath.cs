@@ -23,9 +23,10 @@ public class drawPath : MonoBehaviour {
 	
 	void Update () {
 		if (Input.GetMouseButton(0)) {
+			Collider2D hit;
 			if (!drawing && Input.GetMouseButtonDown(0)) {
 				//check if we clicked on a player unit; if so, start a new path at his position
-				Collider2D hit = Physics2D.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition), 1 << 9);
+				hit = Physics2D.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition), 1 << 9);
 				if (hit && hit.transform == transform.parent) {
 					points.Clear();
 					drawing = true;
@@ -45,12 +46,16 @@ public class drawPath : MonoBehaviour {
 						points.Add(new Vector2(scaledMousePos.x, scaledMousePos.y));
 					}
 					else {
-						//translate collider point outside of collision
+						//translate collider point outside of collision, with a buffer of .01f to help with float rounding
 						Vector2 finalPoint = rch.point;
 						float ang = Mathf.Atan2((finalPoint.y - oldPoint.y), (finalPoint.x - oldPoint.x));
-						finalPoint.x -= Mathf.Cos(ang) * playerGirth;
-						finalPoint.y -= Mathf.Sin(ang) * playerGirth;
-						points.Add(finalPoint);
+						finalPoint.x -= Mathf.Cos(ang) * (playerGirth + .01f);
+						finalPoint.y -= Mathf.Sin(ang) * (playerGirth + .01f);
+						//failsafe: make sure the final point is outside of all collisions
+						hit = Physics2D.OverlapCircle(new Vector2(finalPoint.x,finalPoint.y), playerGirth, 1 << 8);
+						if (!hit) {
+							points.Add(finalPoint);
+						}
 						//collision; try resolving on each individual axis
 					}
 				}
