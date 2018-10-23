@@ -37,7 +37,10 @@ public class playerMove : MonoBehaviour {
 		//update our rotation
 		float rotTick = rotSpeed * Time.deltaTime;
 		float rotDiff = ang-(transform.rotation.eulerAngles.z / 180 * Mathf.PI);
-		transform.eulerAngles = new Vector3(0, 0, transform.rotation.eulerAngles.z + ((rotTick >= Mathf.Abs(rotDiff) ? rotDiff : rotTick * Mathf.Sign(rotDiff))) * 180 / Mathf.PI);
-		//transform.Rotate(0, 0, ((rotTick >= Mathf.Abs(rotDiff) ? rotTick : rotDiff)* Mathf.Sign(rotDiff)) * 180 / Mathf.PI);
+		//if rotation difference exceeds 180 degrees (PI rad) add a full revolution to the calculation so we get the lesser angle
+		if (Mathf.Abs(rotDiff) > Mathf.PI) {
+			rotDiff = ang + Mathf.PI*2 - (transform.rotation.eulerAngles.z / 180 * Mathf.PI);
+		}
+		transform.eulerAngles = new Vector3(0, 0, transform.rotation.eulerAngles.z + (rotTick >= Mathf.Abs(rotDiff) ? rotDiff : rotTick * Mathf.Sign(rotDiff)) * 180 / Mathf.PI);
 	}
 }
