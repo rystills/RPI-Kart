@@ -6,6 +6,7 @@ public class playerMove : MonoBehaviour {
 	public GameObject lineDrawer;
 	drawPath dp;
 	float moveSpeed = 1.5f;
+	float rotSpeed = 10;
 
 	// Use this for initialization
 	void Start () {
@@ -20,17 +21,23 @@ public class playerMove : MonoBehaviour {
 			dp.freshDraw = false;
 		}
 		//move along the drawn path
+		float ang = transform.rotation.eulerAngles.z / 180 * Mathf.PI;
 		float moveTick = moveSpeed * Time.deltaTime;
 		while (dp.points.Count > 0) {
 			float dist = Vector2.Distance(transform.position, dp.points[0]);
-			float ang = Mathf.Atan2((dp.points[0].y - transform.position.y), (dp.points[0].x - transform.position.x));
+			ang = Mathf.Atan2((dp.points[0].y - transform.position.y), (dp.points[0].x - transform.position.x));
 			if (dist > moveTick) {
-				transform.Translate(new Vector2(Mathf.Cos(ang) * moveTick, Mathf.Sin(ang) * moveTick));
+				transform.Translate(new Vector2(Mathf.Cos(ang) * moveTick, Mathf.Sin(ang) * moveTick),Space.World);
 				break;
 			}
 			transform.position = dp.points[0];
 			dp.points.RemoveAt(0);
 			moveTick -= dist;
 		}
+		//update our rotation
+		float rotTick = rotSpeed * Time.deltaTime;
+		float rotDiff = ang-(transform.rotation.eulerAngles.z / 180 * Mathf.PI);
+		transform.eulerAngles = new Vector3(0, 0, transform.rotation.eulerAngles.z + ((rotTick >= Mathf.Abs(rotDiff) ? rotDiff : rotTick * Mathf.Sign(rotDiff))) * 180 / Mathf.PI);
+		//transform.Rotate(0, 0, ((rotTick >= Mathf.Abs(rotDiff) ? rotTick : rotDiff)* Mathf.Sign(rotDiff)) * 180 / Mathf.PI);
 	}
 }

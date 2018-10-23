@@ -11,10 +11,11 @@ public class drawPath : MonoBehaviour {
 	public bool freshDraw = false;
 
 	private void Start() {
+		//initialie our lineRenderer with a green-red gradient
 		lineRenderer = gameObject.GetComponent<LineRenderer>();
 		Gradient gradient = new Gradient();
 		gradient.SetKeys(
-			new GradientColorKey[] { new GradientColorKey(Color.yellow, 0.0f), new GradientColorKey(Color.red, 1.0f) },
+			new GradientColorKey[] { new GradientColorKey(Color.green, 0.0f), new GradientColorKey(Color.red, 1.0f) },
 			new GradientAlphaKey[] { new GradientAlphaKey(.5f, 0.0f), new GradientAlphaKey(.5f, 1.0f) }
 			);
 		lineRenderer.colorGradient = gradient;
