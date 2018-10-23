@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class drawPath : MonoBehaviour {
-	List<Vector2> points = new List<Vector2>();
+	public List<Vector2> points = new List<Vector2>();
 	LineRenderer lineRenderer;
 	bool drawing = false;
 	float playerGirth = .3f;
 	public Transform debugPoint;
+	public bool freshDraw = false;
 
 	private void Start() {
 		lineRenderer = gameObject.GetComponent<LineRenderer>();
@@ -24,10 +25,11 @@ public class drawPath : MonoBehaviour {
 			if (!drawing && Input.GetMouseButtonDown(0)) {
 				//check if we clicked on a player unit; if so, start a new path at his position
 				Collider2D hit = Physics2D.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition), 1 << 9);
-				if (hit.transform == transform.parent) {
+				if (hit && hit.transform == transform.parent) {
 					points.Clear();
 					points.Add(hit.transform.position);
 					drawing = true;
+					freshDraw = true;
 				}
 			}
 			if (drawing) {
