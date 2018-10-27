@@ -61,22 +61,8 @@ public class drawPath : MonoBehaviour {
                         //Any extra collisions this causes seems to correct itself on the next loop
                         ang = Mathf.Atan2((scaledMousePos.y - oldPoint.y), (scaledMousePos.x - oldPoint.x));
                         if (ang < 0) ang += 2 * Mathf.PI;
-                        if (ang >= 0 && ang < Mathf.PI / 2) { //first quadrant
-                            finalPoint.x += .01f;
-                            finalPoint.y += .01f;
-                        }
-                        else if (ang >= Mathf.PI / 2 && ang < Mathf.PI) { //second quadrant
-                            finalPoint.x -= .01f;
-                            finalPoint.y += .01f;
-                        }
-                        else if (ang >= Mathf.PI && ang < 3 * Mathf.PI / 2) { //third quadrant
-                            finalPoint.x -= .01f;
-                            finalPoint.y -= .01f;
-                        }
-                        else { //fourth
-                            finalPoint.x += .01f;
-                            finalPoint.y -= .01f;
-                        }
+						finalPoint.x += .6f * Time.deltaTime * (ang < Mathf.PI / 2 || ang >= 3 * Mathf.PI / 2 ? 1 : -1);
+						finalPoint.y += .6f * Time.deltaTime * (ang < Mathf.PI ? 1 : -1);
                         points.Add(finalPoint);
                         //TODO: try resolving collisions on each individual axis
                     }
