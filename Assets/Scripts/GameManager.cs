@@ -49,11 +49,20 @@ public class GameManager : MonoBehaviour {
 			Vector2 p0 = vertsPos[(int)edgesPos[i][0]];
 			float vertAng = Mathf.Atan2(p1.y - p0.y, p1.x - p0.x);
 			Vector2 center = new Vector2((p1.x + p0.x) / 2, (p1.y + p0.y)/2);
+			//store mesh data and collider in separate objects as plane needs to rotate 90 degrees to face camera, which breaks collider
+			GameObject wallParent = new GameObject();
 			GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Plane);
+			wallParent.name = "Wall";
+			wall.name = "wall mesh";
+			wall.transform.parent = wallParent.transform;
 			wall.transform.rotation *= Quaternion.Euler(-90, 0, 0);
 			wall.transform.localScale = new Vector3(vertDist * .1f, 1, .01f);
-			wall.transform.rotation *= Quaternion.Euler(0, vertAng*180/Mathf.PI, 0);
-			wall.transform.position = center;
+			DestroyImmediate(wall.GetComponent<MeshCollider>());
+			wallParent.layer = 11;
+			BoxCollider2D coll = wallParent.AddComponent<BoxCollider2D>();
+			wallParent.transform.rotation *= Quaternion.Euler(0, 0,vertAng*180/Mathf.PI);
+			wallParent.transform.position = center;
+			coll.size = new Vector2(vertDist,.1f);
 		}
 
 	}
