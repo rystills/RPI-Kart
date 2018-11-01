@@ -384,7 +384,7 @@ MonoBehaviour:
   timeFrozen: 0
   debugPoint: {fileID: 4352673161097090, guid: 1fe020bf0185a9247aaefaed62650568, type: 2}
   wallTex: {fileID: 2800000, guid: bb4e9141d91ff5b4e8fc08b388f14aba, type: 3}
-  wallShader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
+  wallShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!1001 &1887251293
 Prefab:
   m_ObjectHideFlags: 0

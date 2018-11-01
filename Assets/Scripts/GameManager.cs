@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviour {
 			MeshRenderer renderer = wall.GetComponent<MeshRenderer>();
 			renderer.material.shader = wallShader;
 			renderer.material.mainTexture = wallTex;
+			renderer.material.mainTextureScale = new Vector2(10,.1f);
 			wallParent.transform.rotation *= Quaternion.Euler(0, 0,vertAng*180/Mathf.PI);
 			wallParent.transform.position = center;
 			coll.size = new Vector2(vertDist,.1f);
