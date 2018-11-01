@@ -40,7 +40,7 @@ public class drawPath : MonoBehaviour {
 					Vector2 oldPoint = points.Count > 0 ? points[points.Count - 1] : (Vector2)transform.parent.transform.position;
 					Vector2 newPoint = scaledMousePos;
 					RaycastHit2D rch;
-					rch = Physics2D.CircleCast(oldPoint, playerGirth, (newPoint - oldPoint).normalized, Vector2.Distance(oldPoint, newPoint), 1 << 8);
+					rch = Physics2D.CircleCast(oldPoint, playerGirth, (newPoint - oldPoint).normalized, Vector2.Distance(oldPoint, newPoint), (1 << 8) | (1 << 11));
 					if (rch.collider == null) {
 						//no collisions; add the point
 						points.Add(new Vector2(scaledMousePos.x, scaledMousePos.y));
@@ -52,7 +52,7 @@ public class drawPath : MonoBehaviour {
 						finalPoint.x -= Mathf.Cos(ang) * (playerGirth);
 						finalPoint.y -= Mathf.Sin(ang) * (playerGirth);
 						//failsafe: move the point out in small additional increments until collision is resolved (should fix floating point imprecision issues)
-						while (Physics2D.OverlapCircle(new Vector2(finalPoint.x,finalPoint.y), playerGirth, 1 << 8)) {
+						while (Physics2D.OverlapCircle(new Vector2(finalPoint.x,finalPoint.y), playerGirth, (1 << 8) | (1 << 11))) {
 							finalPoint.x -= Mathf.Cos(ang) * (.001f);
 							finalPoint.y -= Mathf.Sin(ang) * (.001f);
 						}
@@ -61,8 +61,8 @@ public class drawPath : MonoBehaviour {
                         //Any extra collisions this causes seems to correct itself on the next loop
                         ang = Mathf.Atan2((scaledMousePos.y - oldPoint.y), (scaledMousePos.x - oldPoint.x));
                         if (ang < 0) ang += 2 * Mathf.PI;
-						finalPoint.x += .6f * Time.deltaTime * (ang < Mathf.PI / 2 || ang >= 3 * Mathf.PI / 2 ? 1 : -1);
-						finalPoint.y += .6f * Time.deltaTime * (ang < Mathf.PI ? 1 : -1);
+						finalPoint.x += .01f * (ang < Mathf.PI / 2 || ang >= 3 * Mathf.PI / 2 ? 1 : -1);
+						finalPoint.y += .01f * (ang < Mathf.PI ? 1 : -1);
                         points.Add(finalPoint);
                         //TODO: try resolving collisions on each individual axis
                     }
