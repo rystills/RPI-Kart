@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 	public bool timeFrozen = false;
-	public Transform wall;
+	public Transform debugPoint;
 
 	private void Start() {
 		//quick and dirty map load (sorry guys, Unity didn't seem to support loading JSON into a generic Dict?)
@@ -41,7 +41,19 @@ public class GameManager : MonoBehaviour {
 		
 		//generate map from loaded data
 		for (int i = 0; i < vertsPos.Count; ++i) {
-			Instantiate(wall, new Vector3(vertsPos[i][0], vertsPos[i][1], 0), Quaternion.identity);
+			Instantiate(debugPoint, new Vector3(vertsPos[i][0], vertsPos[i][1], 0), Quaternion.identity);
+		}
+		for (int i = 0; i < edgesPos.Count; ++i) {
+			float vertDist = Vector2.Distance(vertsPos[(int)edgesPos[i][0]], vertsPos[(int)edgesPos[i][1]]);
+			Vector2 p1 = vertsPos[(int)edgesPos[i][1]];
+			Vector2 p0 = vertsPos[(int)edgesPos[i][0]];
+			float vertAng = Mathf.Atan2(p1.y - p0.y, p1.x - p0.x);
+			Vector2 center = new Vector2((p1.x + p0.x) / 2, (p1.y + p0.y)/2);
+			GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Plane);
+			wall.transform.rotation *= Quaternion.Euler(-90, 0, 0);
+			wall.transform.localScale = new Vector3(vertDist * .1f, 1, .01f);
+			wall.transform.rotation *= Quaternion.Euler(0, vertAng*180/Mathf.PI, 0);
+			wall.transform.position = center;
 		}
 
 	}
