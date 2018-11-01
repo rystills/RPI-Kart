@@ -6,6 +6,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour {
 	public bool timeFrozen = false;
 	public Transform debugPoint;
+	public Texture wallTex;
+	public Shader wallShader;
 
 	private void Start() {
 		//quick and dirty map load (sorry guys, Unity didn't seem to support loading JSON into a generic Dict?)
@@ -40,9 +42,6 @@ public class GameManager : MonoBehaviour {
 		}
 		
 		//generate map from loaded data
-		for (int i = 0; i < vertsPos.Count; ++i) {
-			Instantiate(debugPoint, new Vector3(vertsPos[i][0], vertsPos[i][1], 0), Quaternion.identity);
-		}
 		for (int i = 0; i < edgesPos.Count; ++i) {
 			float vertDist = Vector2.Distance(vertsPos[(int)edgesPos[i][0]], vertsPos[(int)edgesPos[i][1]]);
 			Vector2 p1 = vertsPos[(int)edgesPos[i][1]];
@@ -60,6 +59,9 @@ public class GameManager : MonoBehaviour {
 			DestroyImmediate(wall.GetComponent<MeshCollider>());
 			wallParent.layer = 11;
 			BoxCollider2D coll = wallParent.AddComponent<BoxCollider2D>();
+			MeshRenderer renderer = wall.GetComponent<MeshRenderer>();
+			renderer.material.shader = wallShader;
+			renderer.material.mainTexture = wallTex;
 			wallParent.transform.rotation *= Quaternion.Euler(0, 0,vertAng*180/Mathf.PI);
 			wallParent.transform.position = center;
 			coll.size = new Vector2(vertDist,.1f);
