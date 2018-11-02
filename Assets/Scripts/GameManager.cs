@@ -95,20 +95,21 @@ public class GameManager : MonoBehaviour {
 			for (int r = 0; r < floorsPos[i].Count; ++r) {
 				vertices2D[r] = vertsPos[floorsPos[i][r]];
 			}
+
 			//code adapted from: https://medium.com/@hyperparticle/draw-2d-physics-shapes-in-unity3d-2e0ec634381c
-			var vertices3D = System.Array.ConvertAll<Vector2, Vector3>(vertices2D, v => v);
+			Vector3[] vertices3D = System.Array.ConvertAll<Vector2, Vector3>(vertices2D, v => v);
 
 			// Use the triangulator to get indices for creating triangles
-			var triangulator = new Triangulator(vertices2D);
-			var indices = triangulator.Triangulate();
+			Triangulator triangulator = new Triangulator(vertices2D);
+			int[] indices = triangulator.Triangulate();
 
 			// Generate a color for each vertex
-			var colors = Enumerable.Range(0, vertices3D.Length)
+			UnityEngine.Color[] colors = Enumerable.Range(0, vertices3D.Length)
 				.Select(k => UnityEngine.Random.ColorHSV())
 				.ToArray();
 
 			// Create the mesh
-			var mesh = new Mesh {
+			Mesh mesh = new Mesh {
 				vertices = vertices3D,
 				triangles = indices,
 				colors = colors
@@ -119,14 +120,31 @@ public class GameManager : MonoBehaviour {
 
 			// Set up game object with mesh;
 			GameObject floor = new GameObject();
-			floor.transform.localScale = new Vector3(1, 1, -1);
+			floor.transform.position = new Vector3(0, 0, 1);
 			floor.name = "floor"+i;
-			var meshRenderer = floor.AddComponent<MeshRenderer>();
+			MeshRenderer meshRenderer = floor.AddComponent<MeshRenderer>();
 			meshRenderer.material = floorMat;
 
-			var filter = floor.AddComponent<MeshFilter>();
+			MeshFilter filter = floor.AddComponent<MeshFilter>();
 			filter.mesh = mesh;
 			filter.mesh.RecalculateNormals();
+
+			//calculate uvs as though it were a plane
+			Vector2[] uv = new Vector2[vertices3D.Length];
+			//first determine corner locations
+			float xMin, yMin, xMax, yMax;
+			xMin = yMin = xMax = yMax = float.NaN;
+			for (int r = 0; r < vertices3D.Length; ++r) {
+				xMin = Mathf.Min(xMin, vertices3D[r].x);
+				xMax = Mathf.Max(xMax, vertices3D[r].x);
+				yMin = Mathf.Min(yMin, vertices3D[r].y);
+				yMax = Mathf.Max(yMax, vertices3D[r].y);
+			}
+			//now calculate uvs as a percentage of total distance
+			for (int r = 0; r < vertices3D.Length; ++r) {
+				uv[r] = new Vector2((vertices3D[r].x - xMin)/(xMax-xMin), (vertices3D[r].y - yMin) / (yMax - yMin));
+			}
+			filter.mesh.uv = uv;
 		}
 
 	}
