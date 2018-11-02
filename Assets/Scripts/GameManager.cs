@@ -132,17 +132,17 @@ public class GameManager : MonoBehaviour {
 			//calculate uvs as though it were a plane
 			Vector2[] uv = new Vector2[vertices3D.Length];
 			//first determine corner locations
-			float xMin, yMin, xMax, yMax;
-			xMin = yMin = xMax = yMax = float.NaN;
+			float min, max;
+			min = max = float.NaN;
 			for (int r = 0; r < vertices3D.Length; ++r) {
-				xMin = Mathf.Min(xMin, vertices3D[r].x);
-				xMax = Mathf.Max(xMax, vertices3D[r].x);
-				yMin = Mathf.Min(yMin, vertices3D[r].y);
-				yMax = Mathf.Max(yMax, vertices3D[r].y);
+				min = Mathf.Min(min, vertices3D[r].x);
+				max = Mathf.Max(max, vertices3D[r].x);
+				min = Mathf.Min(min, vertices3D[r].y);
+				max = Mathf.Max(max, vertices3D[r].y);
 			}
 			//now calculate uvs as a percentage of total distance
 			for (int r = 0; r < vertices3D.Length; ++r) {
-				uv[r] = new Vector2((vertices3D[r].x - xMin)/(xMax-xMin), (vertices3D[r].y - yMin) / (yMax - yMin));
+				uv[r] = new Vector2((vertices3D[r].x - min)/(max-min), (vertices3D[r].y - min) / (max - min));
 			}
 			filter.mesh.uv = uv;
 		}
