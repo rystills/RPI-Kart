@@ -61,7 +61,22 @@ public class GameManager : MonoBehaviour {
 				floorsPos.Add(curFloor);
 			}
 		}
-		
+
+		//gather door data into lines
+		firstBracketPos = mapData.IndexOf('[', secondBracketPos + 1);
+		secondBracketPos = mapData.IndexOf(']', firstBracketPos + 1);
+		string doorString = mapData.Substring(firstBracketPos, secondBracketPos - firstBracketPos);
+		string[] doors = doorString.Split('\n');
+		List<Vector2> doorsPos = new List<Vector2>();
+		//extract door data into 2darray
+		for (int i = 0; i < doors.Length; ++i) {
+			string tv = doors[i].Trim();
+			if (tv.Length > 0 && tv[0] == '(') {
+				string[] splitTv = tv.Trim('(').Trim(',').Trim(')').Split(',');
+				doorsPos.Add(new Vector2(Int32.Parse(splitTv[0]), Int32.Parse(splitTv[1])));
+			}
+		}
+
 		//generate map walls
 		for (int i = 0; i < edgesPos.Count; ++i) {
 			float vertDist = Vector2.Distance(vertsPos[(int)edgesPos[i][0]], vertsPos[(int)edgesPos[i][1]]);
@@ -96,27 +111,29 @@ public class GameManager : MonoBehaviour {
 				vertices2D[r] = vertsPos[floorsPos[i][r]];
 			}
 
-			//code adapted from: https://medium.com/@hyperparticle/draw-2d-physics-shapes-in-unity3d-2e0ec634381c
 			Vector3[] vertices3D = System.Array.ConvertAll<Vector2, Vector3>(vertices2D, v => v);
 
 			// Use the triangulator to get indices for creating triangles
 			Triangulator triangulator = new Triangulator(vertices2D);
 			int[] indices = triangulator.Triangulate();
 
-			// Generate a color for each vertex
-			UnityEngine.Color[] colors = Enumerable.Range(0, vertices3D.Length)
-				.Select(k => UnityEngine.Random.ColorHSV())
-				.ToArray();
+			//calculate uvs as though it were a plane
+			Vector2[] uv = new Vector2[vertices3D.Length];
+			float min = 0;
+			float max = 1;
+			for (int r = 0; r < vertices3D.Length; ++r) {
+				uv[r] = new Vector2((vertices3D[r].x - min) / (max - min), (vertices3D[r].y - min) / (max - min));
+			}
 
 			// Create the mesh
 			Mesh mesh = new Mesh {
 				vertices = vertices3D,
 				triangles = indices,
-				colors = colors
+				uv = uv
 			};
 
-			mesh.RecalculateNormals();
 			mesh.RecalculateBounds();
+			mesh.RecalculateNormals();
 
 			// Set up game object with mesh;
 			GameObject floor = new GameObject();
@@ -127,16 +144,6 @@ public class GameManager : MonoBehaviour {
 
 			MeshFilter filter = floor.AddComponent<MeshFilter>();
 			filter.mesh = mesh;
-			filter.mesh.RecalculateNormals();
-
-			//calculate uvs as though it were a plane
-			Vector2[] uv = new Vector2[vertices3D.Length];
-			float min = 0;
-			float max = 1;
-			for (int r = 0; r < vertices3D.Length; ++r) {
-				uv[r] = new Vector2((vertices3D[r].x - min)/(max-min), (vertices3D[r].y - min) / (max - min));
-			}
-			filter.mesh.uv = uv;
 		}
 
 	}
