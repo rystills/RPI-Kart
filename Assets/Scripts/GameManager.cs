@@ -11,84 +11,51 @@ public class GameManager : MonoBehaviour {
 	public Material[] floorMats;
 	public Transform wallPrefab;
 
-	private void Start() {
-		//quick and dirty map load (sorry guys, Unity didn't seem to support loading JSON into a generic Dict?)
-		string mapData = (Resources.Load("DemoMap") as TextAsset).text;
-		//gather wall vert data into lines
-		int firstBracketPos = mapData.IndexOf('[');
-		int secondBracketPos = mapData.IndexOf(']',firstBracketPos+1);
-		string vertString = mapData.Substring(firstBracketPos, secondBracketPos - firstBracketPos);
-		string[] verts = vertString.Split('\n');
-		List<Vector2> vertsPos = new List<Vector2>();
-		//extract wall vert data into array of Vector2s
-		for (int i = 0; i < verts.Length; ++i) {
-			string tv = verts[i].Trim();
-			if (tv.Length > 0 && tv[0] == '(') {
-				string[] splitTv = tv.Trim('(').Trim(',').Trim(')').Split(',');
-				vertsPos.Add(new Vector2(float.Parse(splitTv[0]),float.Parse(splitTv[1])));
-			}
-		}
-		//gather wall edge data into lines
-		firstBracketPos = mapData.IndexOf('[',secondBracketPos + 1);
-		secondBracketPos = mapData.IndexOf(']', firstBracketPos + 1);
-		string edgeString = mapData.Substring(firstBracketPos, secondBracketPos - firstBracketPos);
-		string[] edges = edgeString.Split('\n');
-		List<Vector2> edgesPos = new List<Vector2>();
-		//extract wall edge data into array of Vector2s
-		for (int i = 0; i < edges.Length; ++i) {
-			string tv = edges[i].Trim();
-			if (tv.Length > 0 && tv[0] == '(') {
-				string[] splitTv = tv.Trim('(').Trim(',').Trim(')').Split(',');
-				edgesPos.Add(new Vector2(Int32.Parse(splitTv[0]),Int32.Parse(splitTv[1])));
-			}
-		}
-
+	List<List<float>> readMapValue(ref string mapData, ref int firstBracketPos, ref int secondBracketPos) {
 		//gather floor data into lines
-		firstBracketPos = mapData.IndexOf('[',secondBracketPos + 1);
+		firstBracketPos = mapData.IndexOf('[', secondBracketPos + 1);
 		secondBracketPos = mapData.IndexOf(']', firstBracketPos + 1);
 		string floorString = mapData.Substring(firstBracketPos, secondBracketPos - firstBracketPos);
 		string[] floors = floorString.Split('\n');
-		List<List<int>> floorsPos = new List<List<int>>();
+		List<List<float>> floorsPos = new List<List<float>>();
 		//extract floor data into 2darray
 		for (int i = 0; i < floors.Length; ++i) {
 			string tv = floors[i].Trim();
 			if (tv.Length > 0 && tv[0] == '(') {
 				string[] splitTv = tv.Trim('(').Trim(',').Trim(')').Split(',');
-				List<int> curFloor = new List<int>();
+				List<float> curFloor = new List<float>();
 				for (int r = 0; r < splitTv.Length; ++r) {
-					curFloor.Add(Int32.Parse(splitTv[r]));
+					curFloor.Add(float.Parse(splitTv[r]));
 				}
 				floorsPos.Add(curFloor);
 			}
 		}
+		return floorsPos;
+	}
 
-		//gather door data into lines
-		firstBracketPos = mapData.IndexOf('[', secondBracketPos + 1);
-		secondBracketPos = mapData.IndexOf(']', firstBracketPos + 1);
-		string doorString = mapData.Substring(firstBracketPos, secondBracketPos - firstBracketPos);
-		string[] doors = doorString.Split('\n');
-		List<Vector2> doorsPos = new List<Vector2>();
-		//extract door data into 2darray
-		for (int i = 0; i < doors.Length; ++i) {
-			string tv = doors[i].Trim();
-			if (tv.Length > 0 && tv[0] == '(') {
-				string[] splitTv = tv.Trim('(').Trim(',').Trim(')').Split(',');
-				doorsPos.Add(new Vector2(Int32.Parse(splitTv[0]), Int32.Parse(splitTv[1])));
-			}
-		}
+	private void Start() {
+		//quick and dirty map load (sorry guys, Unity didn't seem to support loading JSON into a generic Dict?)
+		string mapData = (Resources.Load("DemoMap") as TextAsset).text;
+		int firstBracketPos = 0;
+		int secondBracketPos = -1;
+		List<List<float>> vertsPos = readMapValue(ref mapData, ref firstBracketPos, ref secondBracketPos);
+		List<List<float>> edgesPos = readMapValue(ref mapData, ref firstBracketPos, ref secondBracketPos);
+		List<List<float>> floorsPos = readMapValue(ref mapData, ref firstBracketPos, ref secondBracketPos);
+		List<List<float>> doorsPos = readMapValue(ref mapData, ref firstBracketPos, ref secondBracketPos);
 
 		//generate map walls
 		for (int i = 0; i < edgesPos.Count; ++i) {
-			float vertDist = Vector2.Distance(vertsPos[(int)edgesPos[i][0]], vertsPos[(int)edgesPos[i][1]]);
-			Vector2 p1 = vertsPos[(int)edgesPos[i][1]], p0 = vertsPos[(int)edgesPos[i][0]];
+			Vector2 p1 = new Vector2(vertsPos[(int)edgesPos[i][1]][0], vertsPos[(int)edgesPos[i][1]][1]);
+			Vector2 p0 = new Vector2(vertsPos[(int)edgesPos[i][0]][0], vertsPos[(int)edgesPos[i][0]][1]);
+			float vertDist = Vector2.Distance(p1, p0);
 			float vertAng = Mathf.Atan2(p1.y - p0.y, p1.x - p0.x);
-			Vector2 center = new Vector2((p1.x + p0.x) / 2, (p1.y + p0.y)/2);
+			Vector2 center = new Vector2((p1.x + p0.x) / 2, (p1.y + p0.y) / 2);
 			//store mesh data and collider in separate objects as plane needs to rotate 90 degrees to face camera, which breaks collider
 			Transform wallParent = Instantiate(wallPrefab);
 			Transform wall = wallParent.transform.GetChild(0);
 			wall.localScale = new Vector3(vertDist * .1f, 1, .01f);
 			BoxCollider2D coll = wallParent.GetComponent<BoxCollider2D>();
-			coll.size = new Vector2(vertDist,.1f);
+			coll.size = new Vector2(vertDist, .1f);
 			wallParent.rotation *= Quaternion.Euler(0, 0, vertAng * 180 / Mathf.PI);
 			wallParent.position = center;
 		}
@@ -97,7 +64,7 @@ public class GameManager : MonoBehaviour {
 		for (int i = 0; i < floorsPos.Count; ++i) {
 			Vector2[] vertices2D = new Vector2[floorsPos[i].Count];
 			for (int r = 0; r < floorsPos[i].Count; ++r) {
-				vertices2D[r] = vertsPos[floorsPos[i][r]];
+				vertices2D[r] = new Vector2(vertsPos[(int)floorsPos[i][r]][0], vertsPos[(int)floorsPos[i][r]][1]);
 			}
 
 			Vector3[] vertices3D = System.Array.ConvertAll<Vector2, Vector3>(vertices2D, v => v);
