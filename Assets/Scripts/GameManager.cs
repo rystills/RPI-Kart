@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 	public bool timeFrozen = false;
 	public Transform debugPoint;
 	public Texture wallTex;
+	public Material floorMat;
 	public Shader wallShader;
 
 	private void Start() {
@@ -40,8 +42,27 @@ public class GameManager : MonoBehaviour {
 				edgesPos.Add(new Vector2(Int32.Parse(splitTv[0]),Int32.Parse(splitTv[1])));
 			}
 		}
+
+		//gather floor data into lines
+		firstBracketPos = mapData.IndexOf('[',secondBracketPos + 1);
+		secondBracketPos = mapData.IndexOf(']', firstBracketPos + 1);
+		string floorString = mapData.Substring(firstBracketPos, secondBracketPos - firstBracketPos);
+		string[] floors = floorString.Split('\n');
+		List<List<int>> floorsPos = new List<List<int>>();
+		//extract floor data into 2darray
+		for (int i = 0; i < floors.Length; ++i) {
+			string tv = floors[i].Trim();
+			if (tv.Length > 0 && tv[0] == '(') {
+				string[] splitTv = tv.Trim('(').Trim(',').Trim(')').Split(',');
+				List<int> curFloor = new List<int>();
+				for (int r = 0; r < splitTv.Length; ++r) {
+					curFloor.Add(Int32.Parse(splitTv[r]));
+				}
+				floorsPos.Add(curFloor);
+			}
+		}
 		
-		//generate map from loaded data
+		//generate map walls
 		for (int i = 0; i < edgesPos.Count; ++i) {
 			float vertDist = Vector2.Distance(vertsPos[(int)edgesPos[i][0]], vertsPos[(int)edgesPos[i][1]]);
 			Vector2 p1 = vertsPos[(int)edgesPos[i][1]];
@@ -51,7 +72,7 @@ public class GameManager : MonoBehaviour {
 			//store mesh data and collider in separate objects as plane needs to rotate 90 degrees to face camera, which breaks collider
 			GameObject wallParent = new GameObject();
 			GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Plane);
-			wallParent.name = "Wall";
+			wallParent.name = "Wall"+i;
 			wall.name = "wall mesh";
 			wall.transform.parent = wallParent.transform;
 			wall.transform.rotation *= Quaternion.Euler(-90, 0, 0);
@@ -68,6 +89,46 @@ public class GameManager : MonoBehaviour {
 			coll.size = new Vector2(vertDist,.1f);
 		}
 
+		//generate map floors
+		for (int i = 0; i < floorsPos.Count; ++i) {
+			Vector2[] vertices2D = new Vector2[floorsPos[i].Count];
+			for (int r = 0; r < floorsPos[i].Count; ++r) {
+				vertices2D[r] = vertsPos[floorsPos[i][r]];
+			}
+			//code adapted from: https://medium.com/@hyperparticle/draw-2d-physics-shapes-in-unity3d-2e0ec634381c
+			var vertices3D = System.Array.ConvertAll<Vector2, Vector3>(vertices2D, v => v);
+
+			// Use the triangulator to get indices for creating triangles
+			var triangulator = new Triangulator(vertices2D);
+			var indices = triangulator.Triangulate();
+
+			// Generate a color for each vertex
+			var colors = Enumerable.Range(0, vertices3D.Length)
+				.Select(k => UnityEngine.Random.ColorHSV())
+				.ToArray();
+
+			// Create the mesh
+			var mesh = new Mesh {
+				vertices = vertices3D,
+				triangles = indices,
+				colors = colors
+			};
+
+			mesh.RecalculateNormals();
+			mesh.RecalculateBounds();
+
+			// Set up game object with mesh;
+			GameObject floor = new GameObject();
+			floor.transform.localScale = new Vector3(1, 1, -1);
+			floor.name = "floor"+i;
+			var meshRenderer = floor.AddComponent<MeshRenderer>();
+			meshRenderer.material = floorMat;
+
+			var filter = floor.AddComponent<MeshFilter>();
+			filter.mesh = mesh;
+			filter.mesh.RecalculateNormals();
+		}
+
 	}
 
 	void Update () {
@@ -76,6 +137,5 @@ public class GameManager : MonoBehaviour {
 			timeFrozen = !timeFrozen;
 			Time.timeScale = timeFrozen ? 0 : 1;
 		}
-		//Debug.Log(Camera.main.ScreenToWorldPoint(Input.mousePosition));
 	}
 }

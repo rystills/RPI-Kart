@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 1017164676}
   - component: {fileID: 1017164675}
   m_Layer: 0
-  m_Name: Quad
+  m_Name: background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -384,6 +384,7 @@ MonoBehaviour:
   timeFrozen: 0
   debugPoint: {fileID: 4352673161097090, guid: 1fe020bf0185a9247aaefaed62650568, type: 2}
   wallTex: {fileID: 2800000, guid: bb4e9141d91ff5b4e8fc08b388f14aba, type: 3}
+  floorMat: {fileID: 2100000, guid: c39402f4c98d7c44980cf8a77f59334d, type: 2}
   wallShader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!1001 &1887251293
 Prefab:
