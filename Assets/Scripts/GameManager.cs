@@ -12,25 +12,25 @@ public class GameManager : MonoBehaviour {
 	public Transform wallPrefab;
 
 	List<List<float>> readMapValue(ref string mapData, ref int firstBracketPos, ref int secondBracketPos) {
-		//gather floor data into lines
+		//gather data into lines
 		firstBracketPos = mapData.IndexOf('[', secondBracketPos + 1);
 		secondBracketPos = mapData.IndexOf(']', firstBracketPos + 1);
-		string floorString = mapData.Substring(firstBracketPos, secondBracketPos - firstBracketPos);
-		string[] floors = floorString.Split('\n');
-		List<List<float>> floorsPos = new List<List<float>>();
-		//extract floor data into 2darray
-		for (int i = 0; i < floors.Length; ++i) {
-			string tv = floors[i].Trim();
+		string dataString = mapData.Substring(firstBracketPos, secondBracketPos - firstBracketPos);
+		string[] datas = dataString.Split('\n');
+		List<List<float>> datasPos = new List<List<float>>();
+		//extract data into 2darray
+		for (int i = 0; i < datas.Length; ++i) {
+			string tv = datas[i].Trim();
 			if (tv.Length > 0 && tv[0] == '(') {
 				string[] splitTv = tv.Trim('(').Trim(',').Trim(')').Split(',');
 				List<float> curFloor = new List<float>();
 				for (int r = 0; r < splitTv.Length; ++r) {
 					curFloor.Add(float.Parse(splitTv[r]));
 				}
-				floorsPos.Add(curFloor);
+				datasPos.Add(curFloor);
 			}
 		}
-		return floorsPos;
+		return datasPos;
 	}
 
 	private void Start() {
@@ -38,15 +38,15 @@ public class GameManager : MonoBehaviour {
 		string mapData = (Resources.Load("DemoMap") as TextAsset).text;
 		int firstBracketPos = 0;
 		int secondBracketPos = -1;
-		List<List<float>> vertsPos = readMapValue(ref mapData, ref firstBracketPos, ref secondBracketPos);
-		List<List<float>> edgesPos = readMapValue(ref mapData, ref firstBracketPos, ref secondBracketPos);
-		List<List<float>> floorsPos = readMapValue(ref mapData, ref firstBracketPos, ref secondBracketPos);
-		List<List<float>> doorsPos = readMapValue(ref mapData, ref firstBracketPos, ref secondBracketPos);
+		List<List<float>> verts = readMapValue(ref mapData, ref firstBracketPos, ref secondBracketPos);
+		List<List<float>> edges = readMapValue(ref mapData, ref firstBracketPos, ref secondBracketPos);
+		List<List<float>> floors = readMapValue(ref mapData, ref firstBracketPos, ref secondBracketPos);
+		List<List<float>> doors = readMapValue(ref mapData, ref firstBracketPos, ref secondBracketPos);
 
 		//generate map walls
-		for (int i = 0; i < edgesPos.Count; ++i) {
-			Vector2 p1 = new Vector2(vertsPos[(int)edgesPos[i][1]][0], vertsPos[(int)edgesPos[i][1]][1]);
-			Vector2 p0 = new Vector2(vertsPos[(int)edgesPos[i][0]][0], vertsPos[(int)edgesPos[i][0]][1]);
+		for (int i = 0; i < edges.Count; ++i) {
+			Vector2 p1 = new Vector2(verts[(int)edges[i][1]][0], verts[(int)edges[i][1]][1]);
+			Vector2 p0 = new Vector2(verts[(int)edges[i][0]][0], verts[(int)edges[i][0]][1]);
 			float vertDist = Vector2.Distance(p1, p0);
 			float vertAng = Mathf.Atan2(p1.y - p0.y, p1.x - p0.x);
 			Vector2 center = new Vector2((p1.x + p0.x) / 2, (p1.y + p0.y) / 2);
@@ -61,10 +61,10 @@ public class GameManager : MonoBehaviour {
 		}
 
 		//generate map floors
-		for (int i = 0; i < floorsPos.Count; ++i) {
-			Vector2[] vertices2D = new Vector2[floorsPos[i].Count];
-			for (int r = 0; r < floorsPos[i].Count; ++r) {
-				vertices2D[r] = new Vector2(vertsPos[(int)floorsPos[i][r]][0], vertsPos[(int)floorsPos[i][r]][1]);
+		for (int i = 0; i < floors.Count; ++i) {
+			Vector2[] vertices2D = new Vector2[floors[i].Count];
+			for (int r = 0; r < floors[i].Count; ++r) {
+				vertices2D[r] = new Vector2(verts[(int)floors[i][r]][0], verts[(int)floors[i][r]][1]);
 			}
 
 			Vector3[] vertices3D = System.Array.ConvertAll<Vector2, Vector3>(vertices2D, v => v);
