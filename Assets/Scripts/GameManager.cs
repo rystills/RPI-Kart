@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour {
 	public bool timeFrozen = false;
 	public Transform debugPoint;
 	public Texture wallTex;
-	public Material floorMat;
+	public Material[] floorMats;
 	public Shader wallShader;
 
 	private void Start() {
@@ -123,7 +123,7 @@ public class GameManager : MonoBehaviour {
 			floor.transform.position = new Vector3(0, 0, 1);
 			floor.name = "floor"+i;
 			MeshRenderer meshRenderer = floor.AddComponent<MeshRenderer>();
-			meshRenderer.material = floorMat;
+			meshRenderer.material = floorMats[i];
 
 			MeshFilter filter = floor.AddComponent<MeshFilter>();
 			filter.mesh = mesh;
@@ -131,16 +131,8 @@ public class GameManager : MonoBehaviour {
 
 			//calculate uvs as though it were a plane
 			Vector2[] uv = new Vector2[vertices3D.Length];
-			//first determine corner locations
-			float min, max;
-			min = max = float.NaN;
-			for (int r = 0; r < vertices3D.Length; ++r) {
-				min = Mathf.Min(min, vertices3D[r].x);
-				max = Mathf.Max(max, vertices3D[r].x);
-				min = Mathf.Min(min, vertices3D[r].y);
-				max = Mathf.Max(max, vertices3D[r].y);
-			}
-			//now calculate uvs as a percentage of total distance
+			float min = 0;
+			float max = 1;
 			for (int r = 0; r < vertices3D.Length; ++r) {
 				uv[r] = new Vector2((vertices3D[r].x - min)/(max-min), (vertices3D[r].y - min) / (max - min));
 			}
