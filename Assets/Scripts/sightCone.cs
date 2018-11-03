@@ -4,56 +4,48 @@ using UnityEngine;
 
 public class sightCone : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-        //Draw triangle
-        //Position triangle properly
-        Vector2[] vertices = new Vector2[] { new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 0) };
-        ushort[] triangles = new ushort[] { 0, 1, 2};
-        DrawPolygon2D(vertices, triangles, Color.red);
-}
+    SpriteRenderer sr;
+    Color newcolor;
 
-void DrawPolygon2D(Vector2[] vertices, ushort[] triangles, Color color)
-{
-    GameObject polygon = new GameObject(); //create a new game object
-    polygon.name = "Cone";
-    SpriteRenderer sr = polygon.AddComponent<SpriteRenderer>(); // add a sprite renderer
-    Texture2D texture = new Texture2D(1025, 1025); // create a texture larger than your maximum polygon size
-
-    // create an array and fill the texture with your color
-    List<Color> cols = new List<Color>();
-    for (int i = 0; i < (texture.width * texture.height); i++)
-        cols.Add(color);
-    texture.SetPixels(cols.ToArray());
-    texture.Apply();
-
-    sr.color = color; //you can also add that color to the sprite renderer
-
-    sr.sprite = Sprite.Create(texture, new Rect(0, 0, 1024, 1024), Vector2.zero, 1); //create a sprite with the texture we just created and colored in
-
-    //convert coordinates to local space
-    float lx = Mathf.Infinity, ly = Mathf.Infinity;
-    foreach (Vector2 vi in vertices)
-    {
-        if (vi.x < lx)
-            lx = vi.x;
-        if (vi.y < ly)
-            ly = vi.y;
-    }
-    Vector2[] localv = new Vector2[vertices.Length];
-    for (int i = 0; i < vertices.Length; i++)
-    {
-        localv[i] = vertices[i] - new Vector2(lx, ly);
+    // Use this for initialization
+    void Start () {
+        sr = GetComponent<SpriteRenderer>();
+        newcolor = new Color(125, 125, 125);
     }
 
-    sr.sprite.OverrideGeometry(localv, triangles); // set the vertices and triangles
+    // Update is called once per frame
+    void Update () {
+        RaycastHit2D rch;
+        Vector2 dir;
+        Vector2 cur_pos;
+        List<Collider2D> col_list = new List<Collider2D>();
 
-    polygon.transform.position = (Vector2)transform.InverseTransformPoint(transform.position) + new Vector2(lx, ly); // return to world space
-}
+        float facing_ang = transform.rotation.eulerAngles.z / 180 * Mathf.PI;
+        float start_ang = facing_ang - (Mathf.PI / 4);
 
-// Update is called once per frame
-void Update () {
-		//Check triangle for collision
-        //Change triangle color
-	}
+        cur_pos.x = transform.position.x;
+        cur_pos.y = transform.position.y;
+        col_list.Clear();
+
+        for (float ang = start_ang; ang <= start_ang + (Mathf.PI / 2); ang += 0.015f) {
+            dir.x = transform.position.x + Mathf.Cos(ang);
+            dir.y = transform.position.y + Mathf.Sin(ang);
+
+            //third arg is distance of cast
+            //fourth is layer mask of what to look for
+            rch = Physics2D.Raycast(cur_pos, dir, 1, (1 << 8) );
+
+            if (rch.collider != null) {
+                col_list.Add(rch.collider);
+            }
+        }
+        sr.color = newcolor;
+
+        //Something was found
+        if (col_list.Count != 0) {
+            sr.color = newcolor;
+            Debug.Log("we got em");
+        }
+
+    }
 }
