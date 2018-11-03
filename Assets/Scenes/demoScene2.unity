@@ -388,6 +388,8 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 9bd001dfb5b528f479f64d24ddf69ba6, type: 2}
   - {fileID: 2100000, guid: c39402f4c98d7c44980cf8a77f59334d, type: 2}
   wallPrefab: {fileID: 4771125608925426, guid: 776ad05bb75fc1d418a19aa604a8d026, type: 2}
+  obstaclePrefabs:
+  - {fileID: 4366698449383362, guid: 8b8308ebfa34f3540b02e803b4d9f156, type: 2}
 --- !u!1001 &1887251293
 Prefab:
   m_ObjectHideFlags: 0

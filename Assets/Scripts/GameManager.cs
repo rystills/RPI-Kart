@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour {
 	public Texture wallTex;
 	public Material[] floorMats;
 	public Transform wallPrefab;
+	public Transform[] obstaclePrefabs;
 
 	List<List<float>> readMapValue(ref string mapData, ref int firstBracketPos, ref int secondBracketPos) {
 		//gather data into lines
@@ -42,6 +43,7 @@ public class GameManager : MonoBehaviour {
 		List<List<float>> edges = readMapValue(ref mapData, ref firstBracketPos, ref secondBracketPos);
 		List<List<float>> floors = readMapValue(ref mapData, ref firstBracketPos, ref secondBracketPos);
 		List<List<float>> doors = readMapValue(ref mapData, ref firstBracketPos, ref secondBracketPos);
+		List<List<float>> obstacles = readMapValue(ref mapData, ref firstBracketPos, ref secondBracketPos);
 
 		//generate map walls
 		for (int i = 0; i < edges.Count; ++i) {
@@ -100,6 +102,15 @@ public class GameManager : MonoBehaviour {
 
 			MeshFilter filter = floor.AddComponent<MeshFilter>();
 			filter.mesh = mesh;
+		}
+
+		//generate doors
+
+		//generate obstacles
+		for (int i = 0; i < obstacles.Count; ++i) {
+			Transform obs = Instantiate(obstaclePrefabs[(int)obstacles[i][0]]);
+			obs.transform.position = new Vector3(obstacles[i][1], obstacles[i][2], 0);
+			obs.transform.rotation *= Quaternion.Euler(0, 0, obstacles[i][3]);
 		}
 
 	}
