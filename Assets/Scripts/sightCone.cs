@@ -3,14 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class sightCone : MonoBehaviour {
-
-    SpriteRenderer sr;
-    Color newcolor;
-
     // Use this for initialization
     void Start () {
-        sr = GetComponent<SpriteRenderer>();
-        newcolor = new Color(125, 125, 125);
     }
 
     // Update is called once per frame
@@ -28,22 +22,20 @@ public class sightCone : MonoBehaviour {
         col_list.Clear();
 
         for (float ang = start_ang; ang <= start_ang + (Mathf.PI / 2); ang += 0.015f) {
-            dir.x = transform.position.x + Mathf.Cos(ang);
-            dir.y = transform.position.y + Mathf.Sin(ang);
+            dir = Quaternion.AngleAxis(ang*180/Mathf.PI, Vector3.forward) * Vector3.right;
 
-            //third arg is distance of cast
-            //fourth is layer mask of what to look for
-            rch = Physics2D.Raycast(cur_pos, dir, 20, (1 << 10));
+			//third arg is distance of cast
+			//fourth is layer mask of what to look for
+			rch = Physics2D.Raycast(cur_pos, dir, 3, (1 << 10));
             if (rch.collider != null) {
                 col_list.Add(rch.collider);
             }
-        }
-        sr.color = newcolor;
+			Debug.DrawRay(transform.position, dir * 3, Color.blue);
+		}
 
-        //Something was found
-        if (col_list.Count != 0) {
-            sr.color = newcolor;
-            Debug.Log("we got em");
+		//Something was found
+		if (col_list.Count != 0) {
+			//TODO: resolve sight collision
         }
 
     }
