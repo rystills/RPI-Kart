@@ -33,8 +33,7 @@ public class sightCone : MonoBehaviour {
 
             //third arg is distance of cast
             //fourth is layer mask of what to look for
-            rch = Physics2D.Raycast(cur_pos, dir, 1, (1 << 8) );
-
+            rch = Physics2D.Raycast(cur_pos, dir, 20, (1 << 10));
             if (rch.collider != null) {
                 col_list.Add(rch.collider);
             }
