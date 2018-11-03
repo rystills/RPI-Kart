@@ -35,6 +35,10 @@ public class drawPath : MonoBehaviour {
 			}
 			if (drawing) {
 				Vector3 scaledMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				//force paths to stay within .1f of the camera
+				scaledMousePos.x = Mathf.Max(Mathf.Min(scaledMousePos.x,10.3f), -10.3f);
+				scaledMousePos.y = Mathf.Max(Mathf.Min(scaledMousePos.y,4.9f), -4.9f);
+
 				if (points.Count == 0 || !(points[points.Count - 1].x == scaledMousePos.x && points[points.Count - 1].y == scaledMousePos.y)) {
 					//check collisions before adding waypoint
 					Vector2 oldPoint = points.Count > 0 ? points[points.Count - 1] : (Vector2)transform.parent.transform.position;
