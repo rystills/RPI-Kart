@@ -26,11 +26,12 @@ public class sightCone : MonoBehaviour {
 
 			//third arg is distance of cast
 			//fourth is layer mask of what to look for
-			rch = Physics2D.Raycast(cur_pos, dir, 3, (1 << 10));
+			rch = Physics2D.Raycast(cur_pos, dir, 3, 1<<11);
             if (rch.collider != null) {
                 col_list.Add(rch.collider);
-            }
-			Debug.DrawRay(transform.position, dir * 3, Color.blue);
+				
+			}
+			Debug.DrawRay(transform.position, dir * (rch.collider ? Vector2.Distance(transform.position, rch.point) : 3), Color.blue);
 		}
 
 		//Something was found
