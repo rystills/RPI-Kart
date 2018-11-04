@@ -90,9 +90,6 @@ public class GameManager : MonoBehaviour {
 				uv = uv
 			};
 
-			mesh.RecalculateBounds();
-			mesh.RecalculateNormals();
-
 			// Set up game object with mesh;
 			GameObject floor = new GameObject();
 			floor.transform.position = new Vector3(0, 0, 1);
