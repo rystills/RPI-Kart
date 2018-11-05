@@ -57,34 +57,24 @@ public class sightCone : MonoBehaviour {
         cur_pos.x = transform.position.x;
         cur_pos.y = transform.position.y;
         col_list.Clear();
-		//vertices3D[0] = transform.position;
 		int i = 0;
 		uv[0] = new Vector2((vertices3D[0].x - min) / (max - min), (vertices3D[0].y - min) / (max - min));
 		vertices3D[0] = Vector2.zero;
 		for (float ang = start_ang; ang <= start_ang + (Mathf.PI / 2); ang += 0.015f) {
             dir = Quaternion.AngleAxis(ang*180/Mathf.PI, Vector3.forward) * Vector3.right;
-
-			//third arg is distance of cast
-			//fourth is layer mask of what to look for
 			rch = Physics2D.Raycast(cur_pos, dir, visDist, 1<<11);
             if (rch.collider != null) {
                 col_list.Add(rch.collider);
 				
 			}
 			float dist = Vector2.Distance(transform.position, rch.point);
-			//Debug.DrawRay(transform.position, dir * (rch.collider ? Vector2.Distance(transform.position, rch.point) : visDist), Color.blue);
 			vertices3D[++i] = dir * (rch.collider ? dist : visDist);
 			uv[i] = new Vector2((vertices3D[i].x - min) / (max - min), (vertices3D[i].y - min) / (max - min));
 		}
 		filter.mesh.vertices = vertices3D;
 		filter.mesh.uv = uv;
 		filter.mesh.RecalculateNormals();
-		transform.localRotation = transform.parent.localRotation;
-		if (Mathf.Sign(transform.parent.localRotation.z) == -1) {
-			//transform.Rotate(0,0,-2*transform.localRotation.z);
-		}
-		//transform.rotation = Quaternion.identity * Quaternion.Euler(0, 0, transform.parent.rotation.z);
-
+		transform.rotation = Quaternion.Euler(0, 0, 180 + 180-transform.parent.localRotation.z);
 
 		//Something was found
 		if (col_list.Count != 0) {
