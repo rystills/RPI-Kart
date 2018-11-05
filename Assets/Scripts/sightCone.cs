@@ -45,6 +45,7 @@ public class sightCone : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+		transform.localRotation = Quaternion.identity;
         RaycastHit2D rch;
         Vector2 dir;
         Vector2 cur_pos;
@@ -72,12 +73,17 @@ public class sightCone : MonoBehaviour {
 			}
 			float dist = Vector2.Distance(transform.position, rch.point);
 			//Debug.DrawRay(transform.position, dir * (rch.collider ? Vector2.Distance(transform.position, rch.point) : visDist), Color.blue);
-			vertices3D[++i] = new Vector2(Mathf.Cos(ang) * (rch.collider ? dist : visDist), Mathf.Sin(ang) * (rch.collider ? dist : visDist));
+			vertices3D[++i] = dir * (rch.collider ? dist : visDist);
 			uv[i] = new Vector2((vertices3D[i].x - min) / (max - min), (vertices3D[i].y - min) / (max - min));
 		}
 		filter.mesh.vertices = vertices3D;
 		filter.mesh.uv = uv;
 		filter.mesh.RecalculateNormals();
+		transform.localRotation = transform.parent.localRotation;
+		if (Mathf.Sign(transform.parent.localRotation.z) == -1) {
+			//transform.Rotate(0,0,-2*transform.localRotation.z);
+		}
+		//transform.rotation = Quaternion.identity * Quaternion.Euler(0, 0, transform.parent.rotation.z);
 
 
 		//Something was found
