@@ -7,12 +7,15 @@ public class sightCone : MonoBehaviour {
 	public Material sightConeMat;
 	public Vector3[] vertices3D;
 	public MeshFilter filter;
+	Vector2[] uv;
+	float min;
+	float max;
+	public Transform debugPoint;
 
-    // Use this for initialization
-    void Start () {
+	// Use this for initialization
+	void Start () {
 		//create the base sight cone mesh
 		vertices3D = new Vector3[106];
-		vertices3D[0] = Vector3.zero;
 		int[] indices = new int[(vertices3D.Length - 2)*3];
 		for (int i = 0; i < indices.Length; i+=3) {
 			indices[i] = 0;
@@ -21,12 +24,9 @@ public class sightCone : MonoBehaviour {
 		}
 
 		//calculate uvs as though it were a plane
-		Vector2[] uv = new Vector2[vertices3D.Length];
-		float min = 0;
-		float max = 1;
-		for (int r = 0; r < vertices3D.Length; ++r) {
-			uv[r] = new Vector2((vertices3D[r].x - min) / (max - min), (vertices3D[r].y - min) / (max - min));
-		}
+		uv = new Vector2[vertices3D.Length];
+		min = 0;
+		max = 1;
 
 		// Create the mesh
 		Mesh mesh = new Mesh {
@@ -56,8 +56,11 @@ public class sightCone : MonoBehaviour {
         cur_pos.x = transform.position.x;
         cur_pos.y = transform.position.y;
         col_list.Clear();
+		//vertices3D[0] = transform.position;
 		int i = 0;
-        for (float ang = start_ang; ang <= start_ang + (Mathf.PI / 2); ang += 0.015f) {
+		uv[0] = new Vector2((vertices3D[0].x - min) / (max - min), (vertices3D[0].y - min) / (max - min));
+		vertices3D[0] = Vector2.zero;
+		for (float ang = start_ang; ang <= start_ang + (Mathf.PI / 2); ang += 0.015f) {
             dir = Quaternion.AngleAxis(ang*180/Mathf.PI, Vector3.forward) * Vector3.right;
 
 			//third arg is distance of cast
@@ -67,9 +70,14 @@ public class sightCone : MonoBehaviour {
                 col_list.Add(rch.collider);
 				
 			}
-			vertices3D[++i] = (Vector2)transform.position + (Vector2)dir * (rch.collider ? Vector2.Distance(transform.position, rch.point) : visDist);
+			float dist = Vector2.Distance(transform.position, rch.point);
+			//Debug.DrawRay(transform.position, dir * (rch.collider ? Vector2.Distance(transform.position, rch.point) : visDist), Color.blue);
+			vertices3D[++i] = new Vector2(Mathf.Cos(ang) * (rch.collider ? dist : visDist), Mathf.Sin(ang) * (rch.collider ? dist : visDist));
+			uv[i] = new Vector2((vertices3D[i].x - min) / (max - min), (vertices3D[i].y - min) / (max - min));
 		}
 		filter.mesh.vertices = vertices3D;
+		filter.mesh.uv = uv;
+		filter.mesh.RecalculateNormals();
 
 
 		//Something was found
