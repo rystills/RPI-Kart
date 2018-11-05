@@ -68,8 +68,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1334426650542822}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.6}
+  m_LocalScale: {x: 1, y: 1, z: -1}
   m_Children: []
   m_Father: {fileID: 4062898742517970}
   m_RootOrder: 0
@@ -145,6 +145,7 @@ MonoBehaviour:
   sightConeMat: {fileID: 2100000, guid: 9d326ede46f0c60409477a5642a495b4, type: 2}
   vertices3D: []
   filter: {fileID: 0}
+  debugPoint: {fileID: 4352673161097090, guid: 1fe020bf0185a9247aaefaed62650568, type: 2}
 --- !u!114 &114573489537128544
 MonoBehaviour:
   m_ObjectHideFlags: 1

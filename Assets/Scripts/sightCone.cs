@@ -23,7 +23,6 @@ public class sightCone : MonoBehaviour {
 			indices[i + 2] = (int)(i / 3) + 2;
 		}
 
-		//calculate uvs as though it were a plane
 		uv = new Vector2[vertices3D.Length];
 		min = 0;
 		max = 1;
@@ -58,8 +57,8 @@ public class sightCone : MonoBehaviour {
         cur_pos.y = transform.position.y;
         col_list.Clear();
 		int i = 0;
-		uv[0] = new Vector2((vertices3D[0].x - min) / (max - min), (vertices3D[0].y - min) / (max - min));
 		vertices3D[0] = Vector2.zero;
+		uv[0] = new Vector2((vertices3D[0].x - min) / (max - min), (vertices3D[0].y - min) / (max - min));
 		for (float ang = start_ang; ang <= start_ang + (Mathf.PI / 2); ang += 0.015f) {
             dir = Quaternion.AngleAxis(ang*180/Mathf.PI, Vector3.forward) * Vector3.right;
 			rch = Physics2D.Raycast(cur_pos, dir, visDist, 1<<11);
@@ -69,11 +68,11 @@ public class sightCone : MonoBehaviour {
 			}
 			float dist = Vector2.Distance(transform.position, rch.point);
 			vertices3D[++i] = dir * (rch.collider ? dist : visDist);
+			//calculate uvs as though it were a plane
 			uv[i] = new Vector2((vertices3D[i].x - min) / (max - min), (vertices3D[i].y - min) / (max - min));
 		}
 		filter.mesh.vertices = vertices3D;
 		filter.mesh.uv = uv;
-		filter.mesh.RecalculateNormals();
 		transform.rotation = Quaternion.Euler(0, 0, 180 + 180-transform.parent.localRotation.z);
 
 		//Something was found

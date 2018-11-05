@@ -9,6 +9,7 @@ public class drawPath : MonoBehaviour {
 	float playerGirth = .3f;
 	public Transform debugPoint;
 	public bool freshDraw = false;
+	float lineAlpha = .75f;
 
 	private void Start() {
 		//initialie our lineRenderer with a green-red gradient
@@ -16,7 +17,7 @@ public class drawPath : MonoBehaviour {
 		Gradient gradient = new Gradient();
 		gradient.SetKeys(
 			new GradientColorKey[] { new GradientColorKey(Color.green, 0.0f), new GradientColorKey(Color.red, 1.0f) },
-			new GradientAlphaKey[] { new GradientAlphaKey(.5f, 0.0f), new GradientAlphaKey(.5f, 1.0f) }
+			new GradientAlphaKey[] { new GradientAlphaKey(lineAlpha, 0.0f), new GradientAlphaKey(lineAlpha, 1.0f) }
 			);
 		lineRenderer.colorGradient = gradient;
 	}
