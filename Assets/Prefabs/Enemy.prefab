@@ -148,6 +148,7 @@ MonoBehaviour:
   filter: {fileID: 0}
   debugPoint: {fileID: 4352673161097090, guid: 1fe020bf0185a9247aaefaed62650568, type: 2}
   numVerts: 150
+  visArc: 75
 --- !u!114 &114245950514884780
 MonoBehaviour:
   m_ObjectHideFlags: 1

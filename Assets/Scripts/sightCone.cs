@@ -12,6 +12,7 @@ public class sightCone : MonoBehaviour {
 	float max = 1;
 	public Transform debugPoint;
 	public int numVerts;
+	public float visArc;
 
 	// Use this for initialization
 	void Start () {
@@ -46,8 +47,8 @@ public class sightCone : MonoBehaviour {
         RaycastHit2D rch;
         Vector2 dir;
         float facing_ang = transform.rotation.eulerAngles.z / 180 * Mathf.PI;
-        float start_ang = facing_ang - (Mathf.PI / 4);
-		float end_ang = facing_ang + (Mathf.PI / 4);
+        float start_ang = facing_ang - (visArc*Mathf.PI/180/2);
+		float end_ang = facing_ang + (visArc*Mathf.PI/180/2);
 
 		vertices3D[0] = Vector2.zero;
 		uv[0] = new Vector2((vertices3D[0].x + transform.position.x - min) / (max - min), (vertices3D[0].y + transform.position.y - min) / (max - min));

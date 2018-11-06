@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour {
 	public Material[] floorMats;
 	public Transform wallPrefab;
 	public Transform[] obstaclePrefabs;
+	public Transform unitFriendly;
+	public Transform unitEnemy;
 
 	List<List<float>> readMapValue(ref string mapData, ref int firstBracketPos, ref int secondBracketPos) {
 		//gather data into lines
@@ -44,6 +46,7 @@ public class GameManager : MonoBehaviour {
 		List<List<float>> floors = readMapValue(ref mapData, ref firstBracketPos, ref secondBracketPos);
 		List<List<float>> doors = readMapValue(ref mapData, ref firstBracketPos, ref secondBracketPos);
 		List<List<float>> obstacles = readMapValue(ref mapData, ref firstBracketPos, ref secondBracketPos);
+		List<List<float>> units = readMapValue(ref mapData, ref firstBracketPos, ref secondBracketPos);
 
 		//generate map walls
 		for (int i = 0; i < edges.Count; ++i) {
@@ -101,13 +104,20 @@ public class GameManager : MonoBehaviour {
 			filter.mesh = mesh;
 		}
 
-		//generate doors
+		//TODO: generate doors
 
 		//generate obstacles
 		for (int i = 0; i < obstacles.Count; ++i) {
 			Transform obs = Instantiate(obstaclePrefabs[(int)obstacles[i][0]]);
 			obs.transform.position = new Vector3(obstacles[i][1], obstacles[i][2], 0);
 			obs.transform.rotation *= Quaternion.Euler(0, 0, obstacles[i][3]);
+		}
+
+		//spawn units
+		for (int i = 0; i < units.Count; ++i) {
+			Transform unit = Instantiate(((int)units[i][0]) == 0 ? unitFriendly : unitEnemy);
+			unit.transform.position = new Vector2(units[i][1], units[i][2]);
+			unit.transform.rotation *= Quaternion.Euler(0, 0, units[i][3]);
 		}
 
 	}
