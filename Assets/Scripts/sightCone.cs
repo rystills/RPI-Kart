@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class sightCone : MonoBehaviour {
-	public float visDist = 10;
+	public float visDist;
 	public Material sightConeMat;
 	public Vector3[] vertices3D;
 	public MeshFilter filter;
@@ -11,7 +11,7 @@ public class sightCone : MonoBehaviour {
 	float min = 0;
 	float max = 1;
 	public Transform debugPoint;
-	public int numVerts = 150;
+	public int numVerts;
 
 	// Use this for initialization
 	void Start () {
@@ -50,15 +50,15 @@ public class sightCone : MonoBehaviour {
 		float end_ang = facing_ang + (Mathf.PI / 4);
 
 		vertices3D[0] = Vector2.zero;
-		uv[0] = new Vector2((vertices3D[0].x - min) / (max - min), (vertices3D[0].y - min) / (max - min));
+		uv[0] = new Vector2((vertices3D[0].x + transform.position.x - min) / (max - min), (vertices3D[0].y + transform.position.y - min) / (max - min));
 		for (int i = 1; i < numVerts; ++i) {
 			float ang = start_ang + (end_ang - start_ang) * (i/(float)numVerts);
             dir = Quaternion.AngleAxis(ang*180/Mathf.PI, Vector3.forward) * Vector3.right;
 			rch = Physics2D.Raycast(transform.position, dir, visDist, 1<<11);
 			float dist = Vector2.Distance(transform.position, rch.point);
 			vertices3D[i] = dir * (rch.collider ? dist : visDist);
-			//calculate uvs as though it were a plane (beware the Chowder effect though)
-			uv[i] = new Vector2((vertices3D[i].x - min) / (max - min), (vertices3D[i].y - min) / (max - min));
+			//calculate uvs as though it were a plane, cancelling out transform position to achieve the chowder effect
+			uv[i] = new Vector2((vertices3D[i].x + transform.position.x - min) / (max - min), (vertices3D[i].y + transform.position.y - min) / (max - min));
 		}
 		filter.mesh.vertices = vertices3D;
 		filter.mesh.uv = uv;
