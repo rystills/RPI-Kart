@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4673270632994816}
+  - component: {fileID: 114329765649803216}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -39,3 +40,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114329765649803216
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1534481940274776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21fb0682fd991444e883697c990cd5f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeFrozen: 0
+  debugPoint: {fileID: 4352673161097090, guid: 1fe020bf0185a9247aaefaed62650568, type: 2}
+  wallTex: {fileID: 2800000, guid: bb4e9141d91ff5b4e8fc08b388f14aba, type: 3}
+  floorMats:
+  - {fileID: 2100000, guid: 9bd001dfb5b528f479f64d24ddf69ba6, type: 2}
+  - {fileID: 2100000, guid: c39402f4c98d7c44980cf8a77f59334d, type: 2}
+  wallPrefab: {fileID: 4771125608925426, guid: 776ad05bb75fc1d418a19aa604a8d026, type: 2}
+  obstaclePrefabs:
+  - {fileID: 4366698449383362, guid: 8b8308ebfa34f3540b02e803b4d9f156, type: 2}
+  unitFriendly: {fileID: 4062898742517970, guid: bac0073e401abc541a6205f10a5aa2d3,
+    type: 2}
+  unitEnemy: {fileID: 4362143372684492, guid: 69cbb62dfa1abe440a116e3a2095efd1, type: 2}
+  debugShowMousePos: 1
