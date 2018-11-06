@@ -347,3 +347,4 @@ MonoBehaviour:
   unitFriendly: {fileID: 4062898742517970, guid: bac0073e401abc541a6205f10a5aa2d3,
     type: 2}
   unitEnemy: {fileID: 4362143372684492, guid: 69cbb62dfa1abe440a116e3a2095efd1, type: 2}
+  debugShowMousePos: 1

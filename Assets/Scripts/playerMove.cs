@@ -5,8 +5,8 @@ using UnityEngine;
 public class playerMove : MonoBehaviour {
 	public GameObject lineDrawer;
 	drawPath dp;
-	float moveSpeed = 1.5f;
-	float rotSpeed = 10;
+	public float moveSpeed;
+	public float rotSpeed;
 
 	// Use this for initialization
 	void Start () {

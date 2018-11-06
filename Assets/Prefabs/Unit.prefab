@@ -161,6 +161,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lineDrawer: {fileID: 1117604588390866, guid: 66a0e082dbee62b4eaafb751c35486ff, type: 2}
+  moveSpeed: 2
+  rotSpeed: 10
 --- !u!212 &212179949244248608
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -9,7 +9,12 @@
 		(0,0),
 		(0,-1),
 		(-8,-4.5),
-		(0,-4.5)
+		(0,-4.5),
+		//points from here on are not ordered
+		(-8,-1),
+		(-8,0),
+		//(-4,0),
+		//(-4,4.5)
 	],
 	"wallEdges" : //wall edges are specified as (start vertex index, end vertex index)
 	[
@@ -20,7 +25,11 @@
 		(0,7),
 		(7,8),
 		(3,5),
-		(6,8)
+		(6,8),
+		//edges from here on are not ordered
+		(9,6),
+		//(10,5),
+		//(11,12)
 	],
 	"floors" : //floors are specified as (vertex index 0,1,...n; must be listed as a counterclockwise outline)
 	[
@@ -43,6 +52,7 @@
 	[
 		(0,6.7,-4.3,90),
 		(0,8.2,-3.2,180),
-		(1,7.3,3.7,180)
+		(1,7.3,3.7,180),
+		(1,-7.7,-4.2,45)
 	]
 }
