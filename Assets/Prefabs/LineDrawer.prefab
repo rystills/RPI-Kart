@@ -53,8 +53,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   points: []
+  playerGirth: 0.15
   debugPoint: {fileID: 0}
-  freshDraw: 0
 --- !u!120 &120375288542777254
 LineRenderer:
   m_ObjectHideFlags: 1

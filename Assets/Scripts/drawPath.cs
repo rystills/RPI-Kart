@@ -6,9 +6,8 @@ public class drawPath : MonoBehaviour {
 	public List<Vector2> points = new List<Vector2>();
 	LineRenderer lineRenderer;
 	bool drawing = false;
-	float playerGirth = .3f;
+	public float playerGirth;
 	public Transform debugPoint;
-	public bool freshDraw = false;
 	float lineAlpha = .75f;
 
 	private void Start() {
@@ -31,7 +30,6 @@ public class drawPath : MonoBehaviour {
 				if (hit && hit.transform == transform.parent) {
 					points.Clear();
 					drawing = true;
-					freshDraw = true;
 				}
 			}
 			if (drawing) {

@@ -17,9 +17,6 @@ public class playerMove : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (dp.freshDraw) {
-			dp.freshDraw = false;
-		}
 		//move along the drawn path
 		float ang = transform.rotation.eulerAngles.z / 180 * Mathf.PI;
 		float moveTick = moveSpeed * Time.deltaTime;
