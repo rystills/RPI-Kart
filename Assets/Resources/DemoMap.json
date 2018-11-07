@@ -55,11 +55,14 @@
 	],
 	"obstacles" : //obstacles are specified as (objType, xPos, yPos, rot)
 	[
+		//trees
 		(0,6.2,1.1,25),
 		(0,7.3,-.47,-34),
 		(0,3.87,-.71,-94),
 		(0,-9.7,-3.99,-86),
-		(0,-9.7,1.97,41)
+		(0,-9.7,1.97,41),
+		//indoor objects
+		(1,-6,1,0)
 	]
 	"units" : //units are specified as (0 if friendly else 1, xPos, yPos, rot)
 	[

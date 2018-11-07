@@ -61,6 +61,7 @@ MonoBehaviour:
   doorPrefab: {fileID: 4390803522343756, guid: 99c2fd9b4c44bdc42b04fa22ec8d6ba6, type: 2}
   obstaclePrefabs:
   - {fileID: 4366698449383362, guid: 8b8308ebfa34f3540b02e803b4d9f156, type: 2}
+  - {fileID: 4934506319917982, guid: 7da7823b582d7444986c50d9496056b3, type: 2}
   unitFriendly: {fileID: 4062898742517970, guid: bac0073e401abc541a6205f10a5aa2d3,
     type: 2}
   unitEnemy: {fileID: 4362143372684492, guid: 69cbb62dfa1abe440a116e3a2095efd1, type: 2}

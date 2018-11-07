@@ -71,7 +71,7 @@ public class loadMap : MonoBehaviour {
 			Vector2 p0 = new Vector2(verts[(int)doors[i][0]][0], verts[(int)doors[i][0]][1]);
 			float vertDist = Vector2.Distance(p1, p0);
 			float vertAng = Mathf.Atan2(p1.y - p0.y, p1.x - p0.x);
-			Vector2 center = new Vector2((p1.x + p0.x) / 2, (p1.y + p0.y) / 2);
+			Vector3 center = new Vector3((p1.x + p0.x) / 2, (p1.y + p0.y) / 2, .1f);
 			//store mesh data and collider in separate objects as plane needs to rotate 90 degrees to face camera, which breaks collider
 			Transform doorParent = Instantiate(doorPrefab);
 			Transform door = doorParent.transform.GetChild(0);
@@ -124,7 +124,7 @@ public class loadMap : MonoBehaviour {
 		//generate obstacles
 		for (int i = 0; i < obstacles.Count; ++i) {
 			Transform obs = Instantiate(obstaclePrefabs[(int)obstacles[i][0]]);
-			obs.transform.position = new Vector3(obstacles[i][1], obstacles[i][2], 0);
+			obs.transform.position = new Vector3(obstacles[i][1], obstacles[i][2], 0.8f);
 			obs.transform.rotation *= Quaternion.Euler(0, 0, obstacles[i][3]);
 		}
 
