@@ -63,6 +63,6 @@ public class sightCone : MonoBehaviour {
 		}
 		filter.mesh.vertices = vertices3D;
 		filter.mesh.uv = uv;
-		transform.rotation = Quaternion.Euler(0, 0, 180 + 180-transform.parent.localRotation.z);
+		transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 }
