@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour {
 	public Texture wallTex;
 	public Material[] floorMats;
 	public Transform wallPrefab;
+	public Transform doorPrefab;
 	public Transform[] obstaclePrefabs;
 	public Transform unitFriendly;
 	public Transform unitEnemy;
@@ -64,6 +65,23 @@ public class GameManager : MonoBehaviour {
 			coll.size = new Vector2(vertDist, .1f);
 			wallParent.rotation *= Quaternion.Euler(0, 0, vertAng * 180 / Mathf.PI);
 			wallParent.position = center;
+		}
+
+		//generate map doors
+		for (int i = 0; i < doors.Count; ++i) {
+			Vector2 p1 = new Vector2(verts[(int)doors[i][1]][0], verts[(int)doors[i][1]][1]);
+			Vector2 p0 = new Vector2(verts[(int)doors[i][0]][0], verts[(int)doors[i][0]][1]);
+			float vertDist = Vector2.Distance(p1, p0);
+			float vertAng = Mathf.Atan2(p1.y - p0.y, p1.x - p0.x);
+			Vector2 center = new Vector2((p1.x + p0.x) / 2, (p1.y + p0.y) / 2);
+			//store mesh data and collider in separate objects as plane needs to rotate 90 degrees to face camera, which breaks collider
+			Transform doorParent = Instantiate(doorPrefab);
+			Transform door = doorParent.transform.GetChild(0);
+			door.localScale = new Vector3(vertDist * .1f, 1, .01f);
+			BoxCollider2D coll = doorParent.GetComponent<BoxCollider2D>();
+			coll.size = new Vector2(vertDist, .1f);
+			doorParent.rotation *= Quaternion.Euler(0, 0, vertAng * 180 / Mathf.PI);
+			doorParent.position = center;
 		}
 
 		//generate map floors
