@@ -8,6 +8,7 @@ public class playerMove : MonoBehaviour {
 	public float moveSpeed;
 	public float rotSpeedMax;
 	public float rotAccel;
+	public float smallRotAccel;
 	float rotSpeed = 0;
 	public Sprite[] playerSkins;
 
@@ -43,7 +44,10 @@ public class playerMove : MonoBehaviour {
 		if (Mathf.Abs(rotDiff) > Mathf.PI) {
 			rotDiff = ang + Mathf.PI*2 - (transform.rotation.eulerAngles.z / 180 * Mathf.PI);
 		}
-		rotSpeed += rotAccel * Mathf.Sign(rotDiff);
+		//minimize jitters for small rotation differences
+		float scaledRotAccel = Mathf.Abs(rotDiff) < .5f ? smallRotAccel : rotAccel;
+
+		rotSpeed += scaledRotAccel * Mathf.Sign(rotDiff);
 		float rotTick = Mathf.Abs(rotSpeed) * Time.deltaTime;
 		transform.eulerAngles = new Vector3(0, 0, transform.rotation.eulerAngles.z + (rotTick >= Mathf.Abs(rotDiff) ? rotDiff : rotTick * Mathf.Sign(rotDiff)) * 180 / Mathf.PI);
 		
