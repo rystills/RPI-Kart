@@ -7,12 +7,16 @@ public class playerMove : MonoBehaviour {
 	drawPath dp;
 	public float moveSpeed;
 	public float rotSpeed;
+	public Sprite[] playerSkins;
 
 	// Use this for initialization
 	void Start () {
 		GameObject ld = Instantiate(lineDrawer);
 		ld.transform.SetParent(transform);
 		dp = ld.GetComponent<drawPath>();
+		//randomly select sprite
+		SpriteRenderer sr = GetComponent<SpriteRenderer>();
+		sr.sprite = playerSkins[Random.Range(0, playerSkins.Length)];
 	}
 	
 	// Update is called once per frame

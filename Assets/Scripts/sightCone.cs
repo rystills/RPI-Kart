@@ -62,6 +62,7 @@ public class sightCone : MonoBehaviour {
 		if (vertsLen != numVerts) {
 			vertices3D = new Vector3[(int)Mathf.Max(numVerts,3)];
 			uv = new Vector2[vertices3D.Length];
+			//if we added more verts, we need to update mesh.vertices with a sufficiently large vertex array before setting the new triangles
 			if (vertsLen < numVerts) {
 				filter.mesh.vertices = vertices3D;
 			}
