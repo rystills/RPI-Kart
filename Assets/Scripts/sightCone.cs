@@ -14,31 +14,38 @@ public class sightCone : MonoBehaviour {
 	public int numVerts;
 	public float visArc;
 
-	// Use this for initialization
-	void Start () {
-		//create the base sight cone mesh
-		vertices3D = new Vector3[numVerts];
-		int[] indices = new int[(vertices3D.Length - 2)*3];
-		for (int i = 0; i < indices.Length; i+=3) {
+	/**
+	 * rebuild the triangles array
+	 **/
+	void rebuildTriangles() {
+		int[] indices = new int[(vertices3D.Length - 2) * 3];
+		for (int i = 0; i < indices.Length; i += 3) {
 			indices[i] = 0;
 			indices[i + 1] = (int)(i / 3) + 1;
 			indices[i + 2] = (int)(i / 3) + 2;
 		}
+		filter.mesh.triangles = indices;
+	}
+
+	// Use this for initialization
+	void Start () {
+		//create the base sight cone mesh
+		vertices3D = new Vector3[numVerts];
 		uv = new Vector2[vertices3D.Length];
 		
 		// Create the mesh
 		Mesh mesh = new Mesh {
 			vertices = vertices3D,
-			triangles = indices,
 			uv = uv
 		};
+
+		filter = GetComponent<MeshFilter>();
+		filter.mesh = mesh;
+		rebuildTriangles();
 
 		// Set up game object with mesh;
 		MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
 		meshRenderer.material = sightConeMat;
-
-		filter = GetComponent<MeshFilter>();
-		filter.mesh = mesh;
 	}
 
     // Update is called once per frame
@@ -50,10 +57,22 @@ public class sightCone : MonoBehaviour {
         float start_ang = facing_ang - (visArc*Mathf.PI/180/2);
 		float end_ang = facing_ang + (visArc*Mathf.PI/180/2);
 
+		//allow hot-reload of numVerts during gameplay if desired
+		int vertsLen = vertices3D.Length;
+		if (vertsLen != numVerts) {
+			vertices3D = new Vector3[(int)Mathf.Max(numVerts,3)];
+			uv = new Vector2[vertices3D.Length];
+			if (vertsLen < numVerts) {
+				filter.mesh.vertices = vertices3D;
+			}
+			rebuildTriangles();
+			vertsLen = vertices3D.Length;
+		}
+
 		vertices3D[0] = Vector2.zero;
 		uv[0] = new Vector2((vertices3D[0].x + transform.position.x - min) / (max - min), (vertices3D[0].y + transform.position.y - min) / (max - min));
-		for (int i = 1; i < numVerts; ++i) {
-			float ang = start_ang + (end_ang - start_ang) * (i/(float)numVerts);
+		for (int i = 1; i < vertsLen; ++i) {
+			float ang = start_ang + (end_ang - start_ang) * (i/(float)vertsLen);
             dir = Quaternion.AngleAxis(ang*180/Mathf.PI, Vector3.forward) * Vector3.right;
 			rch = Physics2D.Raycast(transform.position, dir, visDist, 1<<11);
 			float dist = Vector2.Distance(transform.position, rch.point);
