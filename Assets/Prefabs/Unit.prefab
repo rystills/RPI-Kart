@@ -162,7 +162,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lineDrawer: {fileID: 1117604588390866, guid: 66a0e082dbee62b4eaafb751c35486ff, type: 2}
   moveSpeed: 2
-  rotSpeed: 10
+  rotSpeedMax: 12
+  rotAccel: 0.1
   playerSkins:
   - {fileID: 21300000, guid: 4c4d0dcd00e10d84ba8a5c240f03a16c, type: 3}
   - {fileID: 21300000, guid: 59ced52d5f71e8449a6fe850486b2769, type: 3}

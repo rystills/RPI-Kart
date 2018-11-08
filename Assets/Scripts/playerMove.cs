@@ -6,7 +6,9 @@ public class playerMove : MonoBehaviour {
 	public GameObject lineDrawer;
 	drawPath dp;
 	public float moveSpeed;
-	public float rotSpeed;
+	public float rotSpeedMax;
+	public float rotAccel;
+	float rotSpeed = 0;
 	public Sprite[] playerSkins;
 
 	// Use this for initialization
@@ -36,12 +38,21 @@ public class playerMove : MonoBehaviour {
 			moveTick -= dist;
 		}
 		//update our rotation
-		float rotTick = rotSpeed * Time.deltaTime;
 		float rotDiff = ang-(transform.rotation.eulerAngles.z / 180 * Mathf.PI);
 		//if rotation difference exceeds 180 degrees (PI rad) add a full revolution to the calculation so we get the lesser angle
 		if (Mathf.Abs(rotDiff) > Mathf.PI) {
 			rotDiff = ang + Mathf.PI*2 - (transform.rotation.eulerAngles.z / 180 * Mathf.PI);
 		}
+		rotSpeed += rotAccel * Mathf.Sign(rotDiff);
+		float rotTick = Mathf.Abs(rotSpeed) * Time.deltaTime;
 		transform.eulerAngles = new Vector3(0, 0, transform.rotation.eulerAngles.z + (rotTick >= Mathf.Abs(rotDiff) ? rotDiff : rotTick * Mathf.Sign(rotDiff)) * 180 / Mathf.PI);
+		
+		//stop rotating immediately rather than decelerating, for now
+		if (rotTick >= Mathf.Abs(rotDiff)) {
+			rotSpeed = 0;
+		}
+		if (Mathf.Abs(rotSpeed) > rotSpeedMax) {
+			rotSpeed = rotSpeedMax * Mathf.Sign(rotSpeed);
+		}
 	}
 }
