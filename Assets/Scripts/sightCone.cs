@@ -15,8 +15,9 @@ public class sightCone : MonoBehaviour {
 	public float visArc;
 	public float reloadTimerMax = .5f;
 	public float reloadTimer = 0;
-	public float health = 100;
-	public float power = 20;
+	public float health;
+	public float power;
+	public Transform laserPrefab;
 
 	/**
 	 * rebuild the triangles array
@@ -50,6 +51,22 @@ public class sightCone : MonoBehaviour {
 		if (reloadTimer == 0) {
 			reloadTimer = reloadTimerMax;
 			enemy.GetComponentInChildren<sightCone>().takeDamage(power);
+			//TODO: manually set UVs for laser, door, and wall meshes
+			//instantiate laser graphic
+			Vector2 p1 = transform.position;
+			Vector2 p0 = enemy.transform.position;
+			float vertDist = Vector2.Distance(p1, p0);
+			float vertAng = Mathf.Atan2(p1.y - p0.y, p1.x - p0.x);
+			Vector3 center = new Vector3((p1.x + p0.x) / 2, (p1.y + p0.y) / 2, .1f);
+			//store mesh data and collider in separate objects as plane needs to rotate 90 degrees to face camera, which breaks collider
+			Transform laserParent = Instantiate(laserPrefab);
+			Transform laser = laserParent.transform.GetChild(0);
+			laser.localScale = new Vector3(vertDist * .1f, 1, .01f);
+			BoxCollider2D coll = laserParent.GetComponent<BoxCollider2D>();
+			coll.size = new Vector2(vertDist, .1f);
+			laserParent.rotation *= Quaternion.Euler(0, 0, vertAng * 180 / Mathf.PI);
+			laserParent.position = center;
+			laser.GetComponent<laserUpdate>().amFriendly = transform.parent.gameObject.layer == 9;
 		}
 	}
 
