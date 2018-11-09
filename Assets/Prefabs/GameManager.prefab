@@ -62,6 +62,11 @@ MonoBehaviour:
   obstaclePrefabs:
   - {fileID: 4366698449383362, guid: 8b8308ebfa34f3540b02e803b4d9f156, type: 2}
   - {fileID: 4934506319917982, guid: 7da7823b582d7444986c50d9496056b3, type: 2}
+  - {fileID: 4654266103906074, guid: 141923d8fcd964443b9f64a492307481, type: 2}
+  - {fileID: 4257221113654770, guid: 1daa50f5a7c969a4e81c2a07591f3468, type: 2}
+  - {fileID: 4477099372544318, guid: fb7905532029c834fa296f146e2dee8b, type: 2}
+  - {fileID: 4734150590881762, guid: a59f6c5348b5a264ab7ccb6ab20ee713, type: 2}
+  - {fileID: 4652817430270668, guid: 1ef46602b0b2dd64c8a2a16fc02bdbb7, type: 2}
   unitFriendly: {fileID: 4062898742517970, guid: bac0073e401abc541a6205f10a5aa2d3,
     type: 2}
   unitEnemy: {fileID: 4362143372684492, guid: 69cbb62dfa1abe440a116e3a2095efd1, type: 2}
