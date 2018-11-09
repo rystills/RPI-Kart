@@ -14,6 +14,12 @@ public class loadMap : MonoBehaviour {
 	public Transform unitFriendly;
 	public Transform unitEnemy;
 
+	/**read the next set of values from the map content string
+	 * @param mapData: the map content string to read from
+	 * @param firstBracketPos: the index of the starting square bracket
+	 * @param secondBracketPos: the index of the ending square bracket
+	 * @returns: a list of floats containing the next set of values from the map content string
+	 **/
 	List<List<float>> readMapValue(ref string mapData, ref int firstBracketPos, ref int secondBracketPos) {
 		//gather data into lines
 		firstBracketPos = mapData.IndexOf('[', secondBracketPos + 1);

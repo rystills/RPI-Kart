@@ -13,6 +13,10 @@ public class sightCone : MonoBehaviour {
 	public Transform debugPoint;
 	public int numVerts;
 	public float visArc;
+	public float reloadTimerMax = .5f;
+	public float reloadTimer = 0;
+	public float health = 100;
+	public float power = 20;
 
 	/**
 	 * rebuild the triangles array
@@ -25,6 +29,28 @@ public class sightCone : MonoBehaviour {
 			indices[i + 2] = (int)(i / 3) + 2;
 		}
 		filter.mesh.triangles = indices;
+	}
+
+	/**
+	 * take the specified amount of damage
+	 * @param amount: the amount of damage to take
+	 **/
+	void takeDamage(float amount) {
+		//TODO: this method should probably go in a dedicated script file for unit interactions
+		health -= amount;
+		if (health <= 0) {
+			Destroy(transform.parent.gameObject);
+		}
+	}
+
+	/**attack the specified enemy
+	 * @param enemy: the enemy to attack
+	 **/
+	void attack(GameObject enemy) {
+		if (reloadTimer == 0) {
+			reloadTimer = reloadTimerMax;
+			enemy.GetComponentInChildren<sightCone>().takeDamage(power);
+		}
 	}
 
 	// Use this for initialization
@@ -50,6 +76,13 @@ public class sightCone : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+		//reload cooldown
+		if (reloadTimer > 0) {
+			reloadTimer -= Time.deltaTime;
+			if (reloadTimer < 0) {
+				reloadTimer = 0;
+			}
+		}
 		transform.localRotation = Quaternion.identity;
         RaycastHit2D rch;
         Vector2 dir;
@@ -72,14 +105,23 @@ public class sightCone : MonoBehaviour {
 
 		vertices3D[0] = Vector2.zero;
 		uv[0] = new Vector2((vertices3D[0].x + transform.position.x - min) / (max - min), (vertices3D[0].y + transform.position.y - min) / (max - min));
+		List<GameObject> hits = new List<GameObject>();
 		for (int i = 1; i < vertsLen; ++i) {
 			float ang = start_ang + (end_ang - start_ang) * (i/(float)vertsLen);
             dir = Quaternion.AngleAxis(ang*180/Mathf.PI, Vector3.forward) * Vector3.right;
-			rch = Physics2D.Raycast(transform.position, dir, visDist, 1<<11);
+			rch = Physics2D.Raycast(transform.position, dir, visDist, (1 << 11) | (1 << (transform.parent.gameObject.layer == 10 ? 9 : 10)));
 			float dist = Vector2.Distance(transform.position, rch.point);
 			vertices3D[i] = dir * (rch.collider ? dist : visDist);
+			if (rch && rch.collider.name != "Wall(Clone)") {
+				hits.Add(rch.collider.gameObject);
+			}
 			//calculate uvs as though it were a plane, cancelling out transform position to achieve the chowder effect
 			uv[i] = new Vector2((vertices3D[i].x + transform.position.x - min) / (max - min), (vertices3D[i].y + transform.position.y - min) / (max - min));
+
+			//attempt to fight first spotted enemy
+			if (hits.Count > 0) {
+				attack(hits[0]);
+			}
 		}
 		filter.mesh.vertices = vertices3D;
 		filter.mesh.uv = uv;
