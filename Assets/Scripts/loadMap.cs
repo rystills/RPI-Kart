@@ -130,7 +130,7 @@ public class loadMap : MonoBehaviour {
 		//generate obstacles
 		for (int i = 0; i < obstacles.Count; ++i) {
 			Transform obs = Instantiate(obstaclePrefabs[(int)obstacles[i][0]]);
-			obs.transform.position = new Vector3(obstacles[i][1], obstacles[i][2], 0.8f);
+			obs.transform.position = new Vector3(obstacles[i][1], obstacles[i][2], obs.transform.position.z);
 			obs.transform.rotation *= Quaternion.Euler(0, 0, obstacles[i][3]);
 		}
 
