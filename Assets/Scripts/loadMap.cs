@@ -13,6 +13,8 @@ public class loadMap : MonoBehaviour {
 	public Transform[] obstaclePrefabs;
 	public Transform unitFriendly;
 	public Transform unitEnemy;
+	public Transform backgroundPrefab;
+	public Material backgroundMaterial;
 
 	/**read the next set of values from the map content string
 	 * @param mapData: the map content string to read from
@@ -53,6 +55,10 @@ public class loadMap : MonoBehaviour {
 		List<List<float>> doors = readMapValue(ref mapData, ref firstBracketPos, ref secondBracketPos);
 		List<List<float>> obstacles = readMapValue(ref mapData, ref firstBracketPos, ref secondBracketPos);
 		List<List<float>> units = readMapValue(ref mapData, ref firstBracketPos, ref secondBracketPos);
+
+		//generate background
+		Transform bg = Instantiate(backgroundPrefab);
+		bg.GetComponent<MeshRenderer>().material = backgroundMaterial;
 
 		//generate map walls
 		for (int i = 0; i < edges.Count; ++i) {

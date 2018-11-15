@@ -67,7 +67,7 @@ public class drawPath : MonoBehaviour {
 						finalPoint.x += .01f * (ang < Mathf.PI / 2 || ang >= 3 * Mathf.PI / 2 ? 1 : -1);
 						finalPoint.y += .01f * (ang < Mathf.PI ? 1 : -1);
                         points.Add(finalPoint);
-                        //TODO: try resolving collisions on each individual axis
+                        //TODO: implement a final check to disallow points that ultimately result in a collision
                     }
 				}
 			}

@@ -2,20 +2,31 @@
   
 Overview: RPI-Kart is intended to be a Mario Kart style racing game developed in the Unreal Engine, and featuring prominent sections of the RPI campus as racetracks.  
   
-Stack: Unreal Engine / C++  
+Stack: Unity / C#  
   
-todo:  
--Establish engine familiarity  
--import base racing game template  
--Nail down usable physics for testing  
--Sketch out a low poly race track for testing  
--Search for open source assets (models, textures, music, sound effects)  
--Implement basic game mechanics (timer, laps, etc..)  
--Implement basic UI (main menu, options menu, etc..)  
--Implement naive AI opponents  
--Implement power-ups  
--Establish racetrack names, locations, etc..  
--Finalize UI + track selection  
--Polish graphics + gameplay  
--Import mesh data from maps / Google Earth, to be used as a base for the racetrack mesh  
--Racing vs other players  
+Milestones Completed:  
+1st half September:  
+Establish engine familiarity  
+Create basic tactical top down game template  
+1st half October:  
+Nail down usable physics for testing  
+Sketch out a low poly maps for testing  
+2nd half October:  
+Search for open source assets (models, textures, music, sound effects)  
+Implement basic game mechanics (movement, vision, sounds, classes, etc...)  
+1st half November:  
+Implement basic UI (main menu, options menu, etc..)  
+  
+Milestones In-Progress:  
+Implement naive AI opponents  
+2nd half November:  
+Implement classes  
+Design non-testing maps  
+1st half December:  
+Finalize UI + campaign  
+Polish gameplay  
+  
+Stretch Goals:  
+Create level editor  
+Polish graphics  
+Medieval expansion  

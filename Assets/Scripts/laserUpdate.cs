@@ -9,7 +9,6 @@ public class laserUpdate : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		Debug.Log(transparency);
 		transparency -= Time.deltaTime;
 		Color color = this.GetComponent<MeshRenderer>().material.color;
 		color.a -= Time.deltaTime * fadeSpeed;

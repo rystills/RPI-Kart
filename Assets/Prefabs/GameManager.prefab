@@ -70,6 +70,9 @@ MonoBehaviour:
   unitFriendly: {fileID: 4062898742517970, guid: bac0073e401abc541a6205f10a5aa2d3,
     type: 2}
   unitEnemy: {fileID: 4362143372684492, guid: 69cbb62dfa1abe440a116e3a2095efd1, type: 2}
+  backgroundPrefab: {fileID: 4316993081386270, guid: cc382682d00a04240ae5bac7602d22fe,
+    type: 2}
+  backgroundMaterial: {fileID: 2100000, guid: 06b0aebb6e75afd4db1b172737884f73, type: 2}
 --- !u!114 &114329765649803216
 MonoBehaviour:
   m_ObjectHideFlags: 1
