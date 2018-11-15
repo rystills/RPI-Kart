@@ -1,11 +1,11 @@
 # RPI-Kart  
   
-Overview: RPI-Kart is intended to be a Mario Kart style racing game developed in the Unreal Engine, and featuring prominent sections of the RPI campus as racetracks.  
+Overview: RPI-Kart is intended to be a top down tactical shooter game in the style of Door Kickers.  
   
 Stack: Unity / C#  
   
 Milestones Completed:  
-1st half September:  
+2nd half September:  
 Establish engine familiarity  
 Create basic tactical top down game template  
 1st half October:  
@@ -30,3 +30,6 @@ Stretch Goals:
 Create level editor  
 Polish graphics  
 Medieval expansion  
+  
+Preview:  
+<img src="screenshots\screenshot_11_15_18.png" width="954" height="453">  
