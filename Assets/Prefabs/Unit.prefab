@@ -151,10 +151,13 @@ MonoBehaviour:
   visArc: 90
   reloadTimerMax: 0.4
   reloadTimer: 0
-  health: 250
+  maxHealth: 250
+  health: 0
   power: 20
   laserPrefab: {fileID: 4750454847714598, guid: 16f1dd0179c57b64485bf841a4e008cc,
     type: 2}
+  healthbarLength: 52
+  healthbarHeight: 12
 --- !u!114 &114573489537128544
 MonoBehaviour:
   m_ObjectHideFlags: 1

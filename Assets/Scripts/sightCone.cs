@@ -15,9 +15,14 @@ public class sightCone : MonoBehaviour {
 	public float visArc;
 	public float reloadTimerMax = .5f;
 	public float reloadTimer = 0;
+	public float maxHealth;
 	public float health;
 	public float power;
 	public Transform laserPrefab;
+	public int healthbarLength;
+	public int healthbarHeight;
+	Texture2D healthbarTex;
+	Texture2D healthbarBGText;
 
 	/**
 	 * rebuild the triangles array
@@ -72,6 +77,17 @@ public class sightCone : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		health = maxHealth;
+		//init healthbar textures
+		healthbarTex = new Texture2D(1, 1);
+		healthbarTex.SetPixel(0, 0, new Color(0, 1, 0, .5f));
+		healthbarTex.wrapMode = TextureWrapMode.Repeat;
+		healthbarTex.Apply();
+		healthbarBGText = new Texture2D(1, 1);
+		healthbarBGText.SetPixel(0, 0, new Color(1, 0, 0, .5f));
+		healthbarBGText.wrapMode = TextureWrapMode.Repeat;
+		healthbarBGText.Apply();
+
 		//create the base sight cone mesh
 		vertices3D = new Vector3[numVerts];
 		uv = new Vector2[vertices3D.Length];
@@ -144,4 +160,10 @@ public class sightCone : MonoBehaviour {
 		filter.mesh.uv = uv;
 		transform.rotation = Quaternion.Euler(0, 0, 0);
     }
+
+	void OnGUI() {
+		Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
+		GUI.DrawTexture(new Rect(screenPos.x - healthbarLength/2, Camera.main.scaledPixelHeight - screenPos.y - 30, healthbarLength, healthbarHeight), healthbarBGText);
+		GUI.DrawTexture(new Rect(screenPos.x - healthbarLength/2+1, Camera.main.scaledPixelHeight - screenPos.y - 29, (healthbarLength - 2) * (health/maxHealth), healthbarHeight-2), healthbarTex);
+	}
 }
