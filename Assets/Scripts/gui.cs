@@ -34,10 +34,23 @@ public class gui : MonoBehaviour {
         GUI.DrawTexture(new Rect(0, 0, screenPos.x * 2, 32), guiBGText);
 
         //TODO: actually make a text style for this
-        GUI.Label(new Rect(10, 0, 64, 32), "Units: ");
+        GUI.Label(new Rect(10, 0, 64, 32), "Units ");
+
+        //Draw pause/play button
+        GUI.DrawTexture(new Rect(screenPos.x - 16, 0, 32, 32), (Time.timeScale == 0) ? pauseText : playText);
 
         var startx = 64;
-        int numUnits = GameObject.FindGameObjectsWithTag("PlayerUnit").Length;
+        GameObject[] unitsAndEnemies = GameObject.FindGameObjectsWithTag("PlayerUnit");
+        //count units and enemies separately
+        int numUnits = 0;
+        int numEnemies = 0;
+        for (int i = 0; i < unitsAndEnemies.Length; i++) {
+            if (unitsAndEnemies[i].layer == 9) { //9 = player layer
+                numUnits++;
+            }
+            else numEnemies++;
+        }
+
         for (int i = 0; i < numUnits; i++) {
             GUI.DrawTexture(new Rect(startx, 0, 32, 32), playerText);
             startx += 32;
