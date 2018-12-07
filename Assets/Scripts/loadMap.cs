@@ -44,6 +44,30 @@ public class loadMap : MonoBehaviour {
 		return datasPos;
 	}
 
+	Tuple<int, float> readFloat(string mapData, int characterPointer)
+	{
+
+	}
+
+	Tuple<int, List<T>> readList(Func<string, int, Tuple<int,T>> elementReader, string mapData, int characterPointer)
+	{
+		while (char.IsWhiteSpace(mapData[characterPointer]))
+			++characterPointer;
+		if (mapData[characterPointer] != '[')
+			; // TODO: throw error
+		++characterPointer;
+		List<T> ans = new List<T>();
+		while (mapData[characterPointer] != ']')
+		{
+			Tuple<int, T> result = elementReader(mapData, characterPointer);
+			characterPointer = result.Item1;
+			ans.Add(result.Item2);
+			while (char.IsWhiteSpace(mapData[characterPointer]) || mapData[characterPointer] == ',')
+				++characterPointer;
+		}
+		return new Tuple<int, List<T>>(characterPointer, ans);
+	}
+
 	private void Start() {
 		//quick and dirty map load (sorry guys, Unity didn't seem to support loading JSON into a generic Dict?)
 		string mapData = map.text;
