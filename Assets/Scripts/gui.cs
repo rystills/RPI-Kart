@@ -52,15 +52,27 @@ public class gui : MonoBehaviour {
             else numEnemies++;
         }
 
-        for (int i = 0; i < numUnits; i++) {
+        if (numUnits < 2) {
+            for (int i = 0; i < numUnits; i++) {
+                GUI.DrawTexture(new Rect(startx, 0, 32, 32), playerText);
+                startx += 32;
+            }
+        }
+        else {
             GUI.DrawTexture(new Rect(startx, 0, 32, 32), playerText);
-            startx += 32;
+            GUI.Label(new Rect(startx+32, 0, 32, 32), "x"+numUnits);
         }
 
         startx = (int)(screenPos.x * 2) - 74 - 32;
-        for (int i = 0; i < numEnemies; i++) {
-            GUI.DrawTexture(new Rect(startx, 0, 32, 32), enemyText);
-            startx -= 32;
+        if (numEnemies < 2) {
+            for (int i = 0; i < numEnemies; i++) {
+                GUI.DrawTexture(new Rect(startx, 0, 32, 32), enemyText);
+                startx -= 32;
+            }
+        }
+        else {
+            GUI.DrawTexture(new Rect(startx-32, 0, 32, 32), enemyText);
+            GUI.Label(new Rect(startx, 0, 32, 32), "x"+numEnemies);
         }
 
         //TODO corner case for if there are more units than the screen can fit
