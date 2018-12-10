@@ -150,22 +150,21 @@ public class sightCone : MonoBehaviour {
 			}
 			//calculate uvs as though it were a plane, cancelling out transform position to achieve the chowder effect
 			uv[i] = new Vector2((vertices3D[i].x + transform.position.x - min) / (max - min), (vertices3D[i].y + transform.position.y - min) / (max - min));
-
-			//attack the closest enemy in the hit list, if at least one exists
-			if (hits.Count > 0) {
-				int closestHit = -1;
-				float closestDist = float.MaxValue;
-				for (int r = 0; r < hits.Count; ++r)
+		}
+		//attack the closest enemy in the hit list, if at least one exists
+		if (hits.Count > 0) {
+			int closestHit = -1;
+			float closestDist = float.MaxValue;
+			for (int i = 0; i < hits.Count; ++i)
+			{
+				float curDist = Vector2.Distance(transform.position, hits[i].transform.position);
+				if (curDist < closestDist)
 				{
-					float curDist = Vector2.Distance(transform.position, hits[r].transform.position);
-					if (curDist < closestDist)
-					{
-						closestDist = curDist;
-						closestHit = r;
-					}
+					closestDist = curDist;
+					closestHit = i;
 				}
-				attack(hits[closestHit]);
 			}
+			attack(hits[closestHit]);
 		}
 		filter.mesh.vertices = vertices3D;
 		filter.mesh.uv = uv;
