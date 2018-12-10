@@ -6,6 +6,8 @@ public class EnemyMove : MonoBehaviour {
 
 	public float moveSpeed;
     public float stoppingDistance;
+    public float minDistance;
+    private float range;
 
 	private Transform target;
 	// Use this for initialization
@@ -18,6 +20,19 @@ public class EnemyMove : MonoBehaviour {
         if(Vector2.Distance(transform.position, target.position) > 3)
         {
             transform.position = Vector2.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
-        } 
+        }
+
+        target = GameObject.FindWithTag("Player").transform;
+
+        range = Vector2.Distance(transform.position, target.position);
+
+        transform.LookAt(target.position, Vector3.back);
+        transform.Rotate(new Vector3(0, 90, 0), Space.Self);
+
+        if (range < minDistance)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
+        }
+
 	}
 }
