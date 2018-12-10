@@ -9,7 +9,8 @@ public class gui : MonoBehaviour {
     Texture2D enemyText;
     Texture2D playText;
     Texture2D pauseText;
-
+    Vector3 screenPos;
+    int iconCombineNum = 3;
 
     // Use this for initialization
     void Start () {
@@ -29,8 +30,23 @@ public class gui : MonoBehaviour {
 		
 	}
 
+    // draw unit/enemy icons
+    void drawIcons(int num, bool isUnit) {
+        int startx = isUnit ? 64 : (int)(screenPos.x * 2) - 74 - 32;
+        if (num < iconCombineNum) {
+            for (int i = 0; i < num; i++) {
+                GUI.DrawTexture(new Rect(startx, 0, 32, 32), isUnit ? playerText : enemyText);
+                startx += 32 * (isUnit ? 1 : -1);
+            }
+        }
+        else {
+            GUI.DrawTexture(new Rect(startx+(isUnit ? 0 : -32), 0, 32, 32), isUnit ? playerText : enemyText);
+            GUI.Label(new Rect(startx+(isUnit ? 32 : 0), 0, 32, 32), "x"+num);
+        }
+    }
+
     void OnGUI() {
-        Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
+        screenPos = Camera.main.WorldToScreenPoint(transform.position);
         GUI.DrawTexture(new Rect(0, 0, screenPos.x * 2, 32), guiBGText);
 
         //TODO: actually make a text style for this
@@ -40,7 +56,6 @@ public class gui : MonoBehaviour {
         //Draw pause/play button
         GUI.DrawTexture(new Rect(screenPos.x - 16, 0, 32, 32), (Time.timeScale == 0) ? pauseText : playText);
 
-        var startx = 64;
         GameObject[] unitsAndEnemies = GameObject.FindGameObjectsWithTag("PlayerUnit");
         //count units and enemies separately
         int numUnits = 0;
@@ -51,31 +66,7 @@ public class gui : MonoBehaviour {
             }
             else numEnemies++;
         }
-
-        if (numUnits < 2) {
-            for (int i = 0; i < numUnits; i++) {
-                GUI.DrawTexture(new Rect(startx, 0, 32, 32), playerText);
-                startx += 32;
-            }
-        }
-        else {
-            GUI.DrawTexture(new Rect(startx, 0, 32, 32), playerText);
-            GUI.Label(new Rect(startx+32, 0, 32, 32), "x"+numUnits);
-        }
-
-        startx = (int)(screenPos.x * 2) - 74 - 32;
-        if (numEnemies < 2) {
-            for (int i = 0; i < numEnemies; i++) {
-                GUI.DrawTexture(new Rect(startx, 0, 32, 32), enemyText);
-                startx -= 32;
-            }
-        }
-        else {
-            GUI.DrawTexture(new Rect(startx-32, 0, 32, 32), enemyText);
-            GUI.Label(new Rect(startx, 0, 32, 32), "x"+numEnemies);
-        }
-
-        //TODO corner case for if there are more units than the screen can fit
-        //Should conver to just one unit texture then "x #" next to it
+        drawIcons(numUnits,true);
+        drawIcons(numEnemies,false);
     }
 }
