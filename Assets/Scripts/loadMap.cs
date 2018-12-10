@@ -46,7 +46,24 @@ public class loadMap : MonoBehaviour {
 
 	Tuple<int, float> readFloat(string mapData, int characterPointer)
 	{
+		bool isNegative = mapData[characterPointer] == '-';
+		if (isNegative)
+			++characterPointer;
+		float ans = 0;
+		while (char.IsNumber(mapData[characterPointer]))
+			ans = ans * 10 + char.GetNumericValue(mapData[characterPointer++]);
+		if (mapData[characterPointer] == '.')
+		{
+			int numDigits = 0;
+			++characterPointer;
+			while (char.IsNumber(mapData[characterPointer]))
+				ans += char.GetNumericValue(mapData[characterPointer++]) / Math.Pow(10, numDigits);
+		}
 
+		if (isNegative)
+			return -1 * ans;
+		else
+			return ans;
 	}
 
 	Tuple<int, List<T>> readList(Func<string, int, Tuple<int,T>> elementReader, string mapData, int characterPointer)
@@ -65,7 +82,7 @@ public class loadMap : MonoBehaviour {
 			while (char.IsWhiteSpace(mapData[characterPointer]) || mapData[characterPointer] == ',')
 				++characterPointer;
 		}
-		return new Tuple<int, List<T>>(characterPointer, ans);
+		return new Tuple<int, List<T>>(characterPointer+1, ans);
 	}
 
 	private void Start() {
