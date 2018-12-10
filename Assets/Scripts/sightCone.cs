@@ -152,7 +152,8 @@ public class sightCone : MonoBehaviour {
 			uv[i] = new Vector2((vertices3D[i].x + transform.position.x - min) / (max - min), (vertices3D[i].y + transform.position.y - min) / (max - min));
 		}
 		//attack the closest enemy in the hit list, if at least one exists
-		if (hits.Count > 0) {
+		if (hits.Count > 0) 
+		{
 			int closestHit = -1;
 			float closestDist = float.MaxValue;
 			for (int i = 0; i < hits.Count; ++i)
