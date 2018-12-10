@@ -44,7 +44,7 @@ public class loadMap : MonoBehaviour {
 		return datasPos;
 	}
 
-	Tuple<int, float> readFloat(string mapData, int characterPointer)
+	/*Tuple<int, float> readFloat(string mapData, int characterPointer)
 	{
 		bool isNegative = mapData[characterPointer] == '-';
 		if (isNegative)
@@ -83,7 +83,7 @@ public class loadMap : MonoBehaviour {
 				++characterPointer;
 		}
 		return new Tuple<int, List<T>>(characterPointer+1, ans);
-	}
+	}*/
 
 	private void Start() {
 		//quick and dirty map load (sorry guys, Unity didn't seem to support loading JSON into a generic Dict?)
