@@ -27,8 +27,10 @@ public class drawMainMenu : MonoBehaviour {
             centeredStyle.fontSize = 128;
         }
         GUI.Label(new Rect(native_width / 2 - 400, native_height / 2 - 400, 800, 300), "RPI-Kart", centeredStyle);
-        if (GUI.Button(new Rect(native_width / 2 - 300, native_height / 2, 200, 100), "Start Game", menuButtonStyle))
+        if (GUI.Button(new Rect(native_width / 2 - 300, native_height / 2, 200, 100), "Start Game", menuButtonStyle)) {
+            Time.timeScale = 1;
             SceneManager.LoadScene("gameScene");
+        }
         if (GUI.Button(new Rect(native_width / 2 - 300, native_height / 2 + 200, 200, 100), "How to Play", menuButtonStyle))
             SceneManager.LoadScene("HTP");
         if (GUI.Button(new Rect(native_width / 2 + 200, native_height / 2, 200, 100), "Credits", menuButtonStyle))
