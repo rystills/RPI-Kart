@@ -9,6 +9,7 @@ public class drawPath : MonoBehaviour {
 	public float playerGirth;
 	public Transform debugPoint;
 	float lineAlpha = .75f;
+    GameObject gameManager;
 
 	private void Start() {
 		//initialie our lineRenderer with a green-red gradient
@@ -19,10 +20,11 @@ public class drawPath : MonoBehaviour {
 			new GradientAlphaKey[] { new GradientAlphaKey(lineAlpha, 0.0f), new GradientAlphaKey(lineAlpha, 1.0f) }
 			);
 		lineRenderer.colorGradient = gradient;
+        gameManager = GameObject.Find("GameManager");
 	}
 	
 	void Update () {
-		if (Input.GetMouseButton(0)) {
+		if (Input.GetMouseButton(0) && gameManager.GetComponent<GameManager>().getShowPauseScreen() == false) {
 			Collider2D hit;
 			if (!drawing && Input.GetMouseButtonDown(0)) {
 				//check if we clicked on a player unit; if so, start a new path at his position

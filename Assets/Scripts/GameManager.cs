@@ -69,6 +69,10 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    public bool getShowPauseScreen() {
+        return showPauseScreen;
+    }
+
     private void OnGUI() {
         float rx = Screen.width / native_width;
         float ry = Screen.height / native_height;
