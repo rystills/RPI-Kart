@@ -122,7 +122,6 @@ public class sightCone : MonoBehaviour {
     void Update () {
 		//reload cooldown
 		if (reloadTimer > 0) {
-            Debug.Log(reloadTimer);
 			reloadTimer -= Time.deltaTime;
 			if (reloadTimer < 0) {
 				reloadTimer = 0;
