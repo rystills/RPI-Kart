@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class drawMainMenu : MonoBehaviour {
+public class WinUI : MonoBehaviour {
     GUIStyle menuButtonStyle;
     GUIStyle centeredStyle = null;
 
@@ -20,20 +20,18 @@ public class drawMainMenu : MonoBehaviour {
         float ry = Screen.height / native_height;
         GUI.matrix = Matrix4x4.TRS(new Vector3(0, 0, 0), Quaternion.identity, new Vector3(rx, ry, 1));
 
-        //GUI functions can only run in OnGUI, because...Unity?
         if (centeredStyle == null) {
             centeredStyle = new GUIStyle(GUI.skin.label);
             centeredStyle.alignment = TextAnchor.UpperCenter;
             centeredStyle.fontSize = 128;
         }
-        GUI.Label(new Rect(native_width / 2 - 400, native_height / 2 - 400, 800, 300), "RPI-Kart", centeredStyle);
-        if (GUI.Button(new Rect(native_width / 2 - 300, native_height / 2, 200, 100), "Start Game", menuButtonStyle))
+
+        GUI.Label(new Rect(native_width / 2 - 400, native_height / 2 - 400, 800, 300), "You Win!", centeredStyle);
+        if (GUI.Button(new Rect(native_width / 2 - 700, native_height / 2, 200, 100), "Replay", menuButtonStyle))
             SceneManager.LoadScene("gameScene");
-        if (GUI.Button(new Rect(native_width / 2 - 300, native_height / 2 + 200, 200, 100), "How to Play", menuButtonStyle))
-            SceneManager.LoadScene("HTP");
-        if (GUI.Button(new Rect(native_width / 2 + 200, native_height / 2, 200, 100), "Credits", menuButtonStyle))
-            SceneManager.LoadScene("credits");
-        if (GUI.Button(new Rect(native_width / 2 + 200, native_height / 2 + 200, 200, 100), "Quit", menuButtonStyle))
+        if (GUI.Button(new Rect(native_width / 2 - 100, native_height / 2, 200, 100), "Main Menu", menuButtonStyle))
+            SceneManager.LoadScene("menuScene");
+        if (GUI.Button(new Rect(native_width / 2 + 500, native_height / 2, 200, 100), "Quit", menuButtonStyle))
             Application.Quit();
     }
 }

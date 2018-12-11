@@ -33,8 +33,8 @@ public class credits : MonoBehaviour {
         GUI.Label(new Rect(native_width / 2 - 700, native_height / 2 - 350, 800, 300), "Ryan Stillings", name);
         GUI.Label(new Rect(native_width / 2 - 700, native_height / 2 - 200, 800, 300), "Vincent Ferrera", name);
         GUI.Label(new Rect(native_width / 2 - 700, native_height / 2 - 50, 800, 300), "Jordan Alligood", name);
-        GUI.Label(new Rect(native_width / 2 - 700, native_height / 2 + 100, 800, 300), "Tyler Chang", name);
-        GUI.Label(new Rect(native_width / 2 - 700, native_height / 2 + 250, 800, 300), "Tim Kim", name);
+        GUI.Label(new Rect(native_width / 2 - 700, native_height / 2 + 100, 800, 300), "Tim Kim", name);
+        GUI.Label(new Rect(native_width / 2 - 700, native_height / 2 + 250, 800, 300), "Tyler Chang", name);
         GUI.Label(new Rect(native_width / 2 - 700, native_height / 2 + 400, 800, 300), "Tommy Olney", name);
 
         GUIStyle button = new GUIStyle("button");

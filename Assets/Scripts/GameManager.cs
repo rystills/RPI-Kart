@@ -28,25 +28,27 @@ public class GameManager : MonoBehaviour {
 			Debug.Log("mouse position: " + scaledMousePos);
 		}
         playerUnits = GameObject.FindGameObjectsWithTag("PlayerUnit");
-        Debug.Log(playerUnits.Length);
 
         GameObject[] temp1 = GameObject.FindGameObjectsWithTag("MachineGun");
         GameObject[] temp2 = GameObject.FindGameObjectsWithTag("SemiAuto");
         GameObject[] temp3 = GameObject.FindGameObjectsWithTag("Sniper");
 
-        List<GameObject> temp4 = new List<GameObject>();
+        List<GameObject> enemies = new List<GameObject>();
         foreach (GameObject temp in temp1){
-            temp4.Add(temp);
+            enemies.Add(temp);
         }
         foreach (GameObject temp in temp2) {
-            temp4.Add(temp);
+            enemies.Add(temp);
         }
         foreach (GameObject temp in temp3) {
-            temp4.Add(temp);
+            enemies.Add(temp);
         }
 
         if (playerUnits.Length == 0) {
             SceneManager.LoadScene("GameOver");
+        }
+        if (enemies.Count == 0) {
+            SceneManager.LoadScene("WinScene");
         }
     }
 }
