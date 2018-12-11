@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class loadMap : MonoBehaviour {
 	public TextAsset map;
@@ -181,11 +182,37 @@ public class loadMap : MonoBehaviour {
 			obs.transform.rotation *= Quaternion.Euler(0, 0, obstacles[i][3]);
 		}
 
-		//spawn units
+        //spawn units
+        bool temp = true;
+        
 		for (int i = 0; i < units.Count; ++i) {
-			Transform unit = Instantiate(((int)units[i][0]) == 0 ? unitFriendly : unitEnemy);
-			unit.transform.position = new Vector2(units[i][1], units[i][2]);
-			unit.transform.rotation *= Quaternion.Euler(0, 0, units[i][3]);
+            if ((int) units[i][0] == 0){
+                temp = true;
+            }
+            else {
+                temp = false;
+            }
+            if (temp) {
+                Transform unit = Instantiate(unitFriendly);
+                unit.transform.position = new Vector2(units[i][1], units[i][2]);
+                unit.transform.rotation *= Quaternion.Euler(0, 0, units[i][3]);
+                unit.transform.tag = "PlayerUnit";
+            }
+            else {
+                Transform unit = Instantiate(unitEnemy);
+                unit.transform.position = new Vector2(units[i][1], units[i][2]);
+                unit.transform.rotation *= Quaternion.Euler(0, 0, units[i][3]);
+                int random = Random.Range(0, 3);
+                if (random == 0) {
+                    unit.transform.tag = "Sniper";
+                }
+                else if (random == 1) {
+                    unit.transform.tag = "MachineGun";
+                }
+                else if (random == 2) {
+                    unit.transform.tag = "SemiAuto";
+                }
+            }
 		}
 
 	}
