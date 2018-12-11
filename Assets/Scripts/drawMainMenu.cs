@@ -1,35 +1,37 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class drawMainMenu : MonoBehaviour {
-	GUIStyle menuButtonStyle;
-	GUIStyle centeredStyle = null;
-	Texture2D texture;
+    GUIStyle menuButtonStyle;
+    GUIStyle centeredStyle = null;
 
-	private void Start() {
-		menuButtonStyle = new GUIStyle("button");
-		menuButtonStyle.fontSize = 24;
+    float native_width = 1920;
+    float native_height = 1080;
 
-		//create random gradient texture at runtime
-		texture = new Texture2D(3, 3, TextureFormat.ARGB32, false);
-		for (int i = 0; i < 9; ++i) {
-			texture.SetPixel(i%3, (int)(i/3), new Color(Random.Range(0f,1f),Random.Range(0f,1f),Random.Range(0f,1f)));
-		}
-		texture.filterMode = FilterMode.Trilinear;
-		texture.Apply();
-	}
+    private void Start() {
+        menuButtonStyle = new GUIStyle("button");
+        menuButtonStyle.fontSize = 24;
+    }
 
-	void OnGUI() {
-		//GUI functions can only run in OnGUI, because...Unity?
-		GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height),texture,ScaleMode.ScaleAndCrop,true);
-		if (centeredStyle == null) {
-			centeredStyle = new GUIStyle(GUI.skin.label);
-			centeredStyle.alignment = TextAnchor.UpperCenter;
-			centeredStyle.fontSize = 72;
-		}
-		GUI.Label(new Rect(Screen.width / 2-200, 120,400,100),"RPI-Kart", centeredStyle);
-		if (GUI.Button(new Rect(120, 400, 134, 28), "Start Game", menuButtonStyle))
-			Application.LoadLevel("gameScene");
-	}
+    void OnGUI() {
+        float rx = Screen.width / native_width;
+        float ry = Screen.height / native_height;
+        GUI.matrix = Matrix4x4.TRS(new Vector3(0, 0, 0), Quaternion.identity, new Vector3(rx, ry, 1));
+
+        //GUI functions can only run in OnGUI, because...Unity?
+        if (centeredStyle == null) {
+            centeredStyle = new GUIStyle(GUI.skin.label);
+            centeredStyle.alignment = TextAnchor.UpperCenter;
+            centeredStyle.fontSize = 128;
+        }
+        GUI.Label(new Rect(native_width / 2 - 400, native_width / 2 - 800, 800, 300), "RPI-Kart", centeredStyle);
+        if (GUI.Button(new Rect(native_width / 2 - 700, native_height / 2, 200, 100), "Start Game", menuButtonStyle))
+            SceneManager.LoadScene("gameScene");
+        else if (GUI.Button(new Rect(native_width / 2 - 100, native_height / 2, 200, 100), "Credits", menuButtonStyle))
+            SceneManager.LoadScene("credits");
+        else if (GUI.Button(new Rect(native_width / 2 + 500, native_height / 2, 200, 100), "Quit", menuButtonStyle))
+            Application.Quit();
+    }
 }
