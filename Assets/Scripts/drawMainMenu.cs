@@ -26,12 +26,12 @@ public class drawMainMenu : MonoBehaviour {
             centeredStyle.alignment = TextAnchor.UpperCenter;
             centeredStyle.fontSize = 128;
         }
-        GUI.Label(new Rect(native_width / 2 - 400, native_width / 2 - 800, 800, 300), "RPI-Kart", centeredStyle);
+        GUI.Label(new Rect(native_width / 2 - 400, native_height / 2 - 400, 800, 300), "RPI-Kart", centeredStyle);
         if (GUI.Button(new Rect(native_width / 2 - 700, native_height / 2, 200, 100), "Start Game", menuButtonStyle))
             SceneManager.LoadScene("gameScene");
-        else if (GUI.Button(new Rect(native_width / 2 - 100, native_height / 2, 200, 100), "Credits", menuButtonStyle))
+        if (GUI.Button(new Rect(native_width / 2 - 100, native_height / 2, 200, 100), "Credits", menuButtonStyle))
             SceneManager.LoadScene("credits");
-        else if (GUI.Button(new Rect(native_width / 2 + 500, native_height / 2, 200, 100), "Quit", menuButtonStyle))
+        if (GUI.Button(new Rect(native_width / 2 + 500, native_height / 2, 200, 100), "Quit", menuButtonStyle))
             Application.Quit();
     }
 }
