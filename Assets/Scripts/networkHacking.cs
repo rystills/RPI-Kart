@@ -30,17 +30,17 @@ public class hackSystem : MonoBehaviour {
     public int hackLevel;
     public int hackSkill;
     Vector2[] accesPoints;
-
-    void flipControl(int hackSkill, int hackLevel, bool playerOwned){
+    
+    bool flipControl(int hackSkill, int hackLevel, bool playerOwned){
         if(playerOwned != true){
             if(hackSkill > hackLevel){
-                this->playerOwned = true;
+                playerOwned = true;
             }
-            else exit(1);
+            return false;
         }
-        else exit(1);
+        return false;
     }
-
+    /*
     Vector2 connectToNetwork(Vector2 accesPoints[], int hackSkill, GameObject person){
         if(hackSkill > 3){
             foreach(int i in accesPoints){
@@ -51,5 +51,6 @@ public class hackSystem : MonoBehaviour {
         }
         else exit(1);
     }
+    */
 
 }
