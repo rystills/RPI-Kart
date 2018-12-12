@@ -60,6 +60,7 @@ public class gui : MonoBehaviour {
         GameObject[] temp1 = GameObject.FindGameObjectsWithTag("MachineGun");
         GameObject[] temp2 = GameObject.FindGameObjectsWithTag("SemiAuto");
         GameObject[] temp3 = GameObject.FindGameObjectsWithTag("Sniper");
+        GameObject[] temp4 = GameObject.FindGameObjectsWithTag("Drone");
 
         List<GameObject> enemies = new List<GameObject>();
         foreach (GameObject temp in temp1) {
@@ -69,6 +70,9 @@ public class gui : MonoBehaviour {
             enemies.Add(temp);
         }
         foreach (GameObject temp in temp3) {
+            enemies.Add(temp);
+        }
+        foreach (GameObject temp in temp4) {
             enemies.Add(temp);
         }
         //count units and enemies separately

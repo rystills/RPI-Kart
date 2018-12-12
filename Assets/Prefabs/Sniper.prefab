@@ -163,7 +163,7 @@ MonoBehaviour:
   debugPoint: {fileID: 4352673161097090, guid: 1fe020bf0185a9247aaefaed62650568, type: 2}
   numVerts: 500
   visArc: 75
-  reloadTimerMax: 1.3
+  reloadTimerMax: 1.5
   reloadTimer: 0
   maxHealth: 100
   health: 0
