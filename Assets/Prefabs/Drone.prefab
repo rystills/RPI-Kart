@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 58152735084719224}
   - component: {fileID: 114045921294981046}
   m_Layer: 10
-  m_Name: SemiAuto
+  m_Name: Drone
   m_TagString: SemiAuto
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
