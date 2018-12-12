@@ -14,6 +14,9 @@ public class loadMap : MonoBehaviour {
 	public Transform[] obstaclePrefabs;
 	public Transform unitFriendly;
 	public Transform unitEnemy;
+    public Transform Sniper;
+    public Transform MachineGun;
+    public Transform SemiAuto;
 	public Transform backgroundPrefab;
 	public Material backgroundMaterial;
 
@@ -199,18 +202,21 @@ public class loadMap : MonoBehaviour {
                 unit.transform.tag = "PlayerUnit";
             }
             else {
-                Transform unit = Instantiate(unitEnemy);
-                unit.transform.position = new Vector2(units[i][1], units[i][2]);
-                unit.transform.rotation *= Quaternion.Euler(0, 0, units[i][3]);
                 int random = Random.Range(0, 3);
                 if (random == 0) {
-                    unit.transform.tag = "Sniper";
+                    Transform unit = Instantiate(Sniper);
+                    unit.transform.position = new Vector2(units[i][1], units[i][2]);
+                    unit.transform.rotation *= Quaternion.Euler(0, 0, units[i][3]);
                 }
                 else if (random == 1) {
-                    unit.transform.tag = "MachineGun";
+                    Transform unit = Instantiate(MachineGun);
+                    unit.transform.position = new Vector2(units[i][1], units[i][2]);
+                    unit.transform.rotation *= Quaternion.Euler(0, 0, units[i][3]);
                 }
                 else if (random == 2) {
-                    unit.transform.tag = "SemiAuto";
+                    Transform unit = Instantiate(SemiAuto);
+                    unit.transform.position = new Vector2(units[i][1], units[i][2]);
+                    unit.transform.rotation *= Quaternion.Euler(0, 0, units[i][3]);
                 }
             }
 		}
