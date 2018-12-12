@@ -8,6 +8,8 @@ TagManager:
   - Sniper
   - MachineGun
   - SemiAuto
+  - Drone
+  - PlayerCamera
   layers:
   - Default
   - TransparentFX
