@@ -56,17 +56,24 @@ public class gui : MonoBehaviour {
         //Draw pause/play button
         GUI.DrawTexture(new Rect(screenPos.x - 16, 0, 32, 32), (Time.timeScale == 0) ? pauseText : playText);
 
-        GameObject[] unitsAndEnemies = GameObject.FindGameObjectsWithTag("PlayerUnit");
-        //count units and enemies separately
-        int numUnits = 0;
-        int numEnemies = 0;
-        for (int i = 0; i < unitsAndEnemies.Length; i++) {
-            if (unitsAndEnemies[i].layer == 9) { //9 = player layer
-                numUnits++;
-            }
-            else numEnemies++;
+        GameObject[] units = GameObject.FindGameObjectsWithTag("PlayerUnit");
+        GameObject[] temp1 = GameObject.FindGameObjectsWithTag("MachineGun");
+        GameObject[] temp2 = GameObject.FindGameObjectsWithTag("SemiAuto");
+        GameObject[] temp3 = GameObject.FindGameObjectsWithTag("Sniper");
+
+        List<GameObject> enemies = new List<GameObject>();
+        foreach (GameObject temp in temp1) {
+            enemies.Add(temp);
         }
-        drawIcons(numUnits,true);
-        drawIcons(numEnemies,false);
+        foreach (GameObject temp in temp2) {
+            enemies.Add(temp);
+        }
+        foreach (GameObject temp in temp3) {
+            enemies.Add(temp);
+        }
+        //count units and enemies separately
+
+        drawIcons(units.Length,true);
+        drawIcons(enemies.Count,false);
     }
 }
