@@ -12,7 +12,7 @@ public class EnemyMove : MonoBehaviour {
 	private Transform target;
 	// Use this for initialization
 	void Start () {
-        target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        target = GameObject.FindGameObjectWithTag("Playerunit").GetComponent<Transform>();
 	}
 	
 	// Update is called once per frame
@@ -22,7 +22,7 @@ public class EnemyMove : MonoBehaviour {
             transform.position = Vector2.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
         }
 
-        target = GameObject.FindWithTag("Player").transform;
+        target = GameObject.FindWithTag("Playerunit").transform;
 
         range = Vector2.Distance(transform.position, target.position);
 

@@ -202,8 +202,10 @@ public class loadMap : MonoBehaviour {
                 unit.transform.rotation *= Quaternion.Euler(0, 0, units[i][3]);
                 unit.transform.tag = "PlayerUnit";
             }
+
+            // Generate units randomly
             else {
-                int random = Random.Range(0, 3);
+                int random = Random.Range(0, 4);
                 if (random == 0) {
                     Transform unit = Instantiate(Sniper);
                     unit.transform.position = new Vector2(units[i][1], units[i][2]);
@@ -216,6 +218,12 @@ public class loadMap : MonoBehaviour {
                 }
                 else if (random == 2) {
                     Transform unit = Instantiate(SemiAuto);
+                    unit.transform.position = new Vector2(units[i][1], units[i][2]);
+                    unit.transform.rotation *= Quaternion.Euler(0, 0, units[i][3]);
+                }
+                else if (random == 3)
+                {
+                    Transform unit = Instantiate(Drone);
                     unit.transform.position = new Vector2(units[i][1], units[i][2]);
                     unit.transform.rotation *= Quaternion.Euler(0, 0, units[i][3]);
                 }

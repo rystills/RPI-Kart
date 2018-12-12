@@ -30,6 +30,7 @@ public class EnemyPatrol : MonoBehaviour {
         }
         else
         {
+            // Update our waiting time
             waitTime -= Time.deltaTime;
         }
     }
