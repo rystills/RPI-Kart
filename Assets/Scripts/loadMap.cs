@@ -17,6 +17,7 @@ public class loadMap : MonoBehaviour {
     public Transform Sniper;
     public Transform MachineGun;
     public Transform SemiAuto;
+    public Transform Drone;
 	public Transform backgroundPrefab;
 	public Material backgroundMaterial;
 
