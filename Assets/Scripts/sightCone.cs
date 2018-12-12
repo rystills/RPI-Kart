@@ -54,18 +54,7 @@ public class sightCone : MonoBehaviour {
 	 **/
 	void attack(GameObject enemy) {
 		if (reloadTimer == 0) {
-            if (gameObject.transform.parent.transform.tag == "Sniper") {
-                reloadTimer = 1.3f;
-            }
-			else if (gameObject.transform.parent.transform.tag == "MachineGun") {
-                reloadTimer = .3f;
-            }
-            else if (gameObject.transform.parent.transform.tag == "SemiAuto") {
-                reloadTimer = .7f;
-            }
-            else {
-                reloadTimer = reloadTimerMax;
-            }
+            reloadTimer = reloadTimerMax;
 			enemy.GetComponentInChildren<sightCone>().takeDamage(power);
 			//TODO: manually set UVs for laser, door, and wall meshes
 			//instantiate laser graphic

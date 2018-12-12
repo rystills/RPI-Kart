@@ -152,6 +152,24 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114232596587460176, guid: e486021a93c1f044cbe0f8699353fb97,
+        type: 2}
+      propertyPath: Sniper
+      value: 
+      objectReference: {fileID: 4255058657485406, guid: f130590c0f5e4744ebfd47be73741483,
+        type: 2}
+    - target: {fileID: 114232596587460176, guid: e486021a93c1f044cbe0f8699353fb97,
+        type: 2}
+      propertyPath: SemiAuto
+      value: 
+      objectReference: {fileID: 4937658598881024, guid: 3afeddb439b8bb848b66b19d37b1442e,
+        type: 2}
+    - target: {fileID: 114232596587460176, guid: e486021a93c1f044cbe0f8699353fb97,
+        type: 2}
+      propertyPath: MachineGun
+      value: 
+      objectReference: {fileID: 4432076255637974, guid: 46703d64081c7444eb05eed14aabc7d9,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e486021a93c1f044cbe0f8699353fb97, type: 2}
   m_IsPrefabAsset: 0
